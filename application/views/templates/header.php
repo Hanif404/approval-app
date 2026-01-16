@@ -30,7 +30,7 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="<?php echo site_url('forms'); ?>" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
             <p>Forms</p>
           </a>
