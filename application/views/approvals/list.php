@@ -1,15 +1,13 @@
 <?php
-$title = 'Approvals List';
-$page_title = 'Approvals Management';
+$title = 'Forms Approval List';
+$page_title = 'Forms Approval List';
 ob_start();
 ?>
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Approvals List</h3>
-        <div class="card-tools">
-            
-        </div>
+        <h3 class="card-title">Forms Approval List</h3>
+        <div class="card-tools"></div>
     </div>
     <div class="card-body">
         <table class="table table-bordered table-striped">

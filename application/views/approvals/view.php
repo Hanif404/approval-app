@@ -9,12 +9,12 @@ ob_start();
         <h3 class="card-title">Form Details</h3>
         <div class="card-tools">
             <?php if($form->approval_status == 'pending'): ?>
-            <a href="<?php echo site_url('approvals/approve/' . $form->id); ?>" class="btn btn-primary btn-sm">
+            <a href="<?php echo site_url('approvals/approve/' . $form->id); ?>" class="btn btn-success btn-sm">
                 <i class="fas fa-check"></i> Approve
             </a>
-            <!-- <a href="<?php echo site_url('approvals/reject/' . $form->id); ?>" class="btn btn-danger btn-sm">
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectModal">
                 <i class="fas fa-times"></i> Reject
-            </a> -->
+            </button>
             <?php endif; ?>
             <a href="<?php echo site_url('approvals'); ?>" class="btn btn-secondary btn-sm">
                 <i class="fas fa-arrow-left"></i> Back
@@ -176,6 +176,32 @@ ob_start();
                 <?php endif; ?>
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- Rejection Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="<?php echo site_url('approvals/reject/' . $form->id); ?>">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectModalLabel">Reject Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="rejection_reason">Rejection Reason <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="4" placeholder="Please provide a reason for rejection..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Reject Form</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

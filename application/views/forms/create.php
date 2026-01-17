@@ -89,7 +89,7 @@ ob_start();
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="transaction_type">Transaction Type</label>
-                        <textarea class="form-control" id="transaction_type" name="transaction_type" rows="2"><?php echo set_value('transaction_type'); ?></textarea>
+                        <input type="text" class="form-control" id="transaction_type" name="transaction_type" value="<?php echo set_value('transaction_type'); ?>">
                     </div>
                 </div>
             </div>

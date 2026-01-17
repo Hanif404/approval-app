@@ -16,6 +16,11 @@ ob_start();
                 <i class="fas fa-edit"></i> Edit
             </a>
             <?php endif; ?>
+            <?php if ($form->status != 'draft'): ?>
+                <a href="<?php echo site_url('approvals/logs/' . $form->id); ?>" class="btn btn-primary btn-sm">
+                    <i class="fas fa-history"></i> History
+                </a>
+            <?php endif; ?> 
             <a href="<?php echo site_url('forms'); ?>" class="btn btn-secondary btn-sm">
                 <i class="fas fa-arrow-left"></i> Back
             </a>

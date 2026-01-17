@@ -83,6 +83,24 @@ class Approvals extends CI_Controller {
         redirect('approvals/view/' . $id);
     }
 
+    public function reject($id) {
+        $role = $this->get_user_role();
+        $rejection_reason = $this->input->post('rejection_reason');
+        
+        $this->Approval_model->update_approval($id, $role, array(
+            'status' => 'rejected', 
+            'user_id' => $this->session->userdata('user_id'), 
+            'approved_at' => date('Y-m-d H:i:s'),
+            'note' => $rejection_reason
+        ));
+        
+        // Mark form as rejected
+        $this->Form_model->update_status($id, 'rejected');
+        
+        $this->session->set_flashdata('success', 'Form rejected successfully.');
+        redirect('approvals/view/' . $id);
+    }
+
     public function check_user_role_step_order() {
         $user_id = $this->session->userdata('user_id');
         if (!$user_id) {
@@ -96,5 +114,11 @@ class Approvals extends CI_Controller {
         }
         
         return 0;
+    }
+
+    public function logs($id) {
+        $data['approvals'] = $this->Approval_model->get_approval_by_form_id($id);
+        $data['id'] = $id;
+        $this->load->view('approvals/log', $data);
     }
 }

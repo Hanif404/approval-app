@@ -27,6 +27,16 @@ class Approval_model extends CI_Model {
         return $this->db->get()->row();
     }
 
+    public function get_approval_by_form_id($id) {
+        $this->db->select('a.id, a.form_id, a.status, a.note, a.approved_at, a.created_at, r.name as role_name, u.name as user_name, u.email');
+        $this->db->from('approvals a');
+        $this->db->join('roles r', 'a.role_id = r.id', 'left');
+        $this->db->join('users u', 'a.user_id = u.id', 'left');
+        $this->db->where('a.form_id', $id);
+        
+        return $this->db->get()->result();
+    }
+
     public function create_approval($data) {
         $data['created_at'] = date('Y-m-d H:i:s');
         return $this->db->insert('approvals', $data);
