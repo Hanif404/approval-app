@@ -46,4 +46,25 @@ class Form_model extends CI_Model {
     public function update_status($id, $status) {
         return $this->update_form($id, array('status' => $status));
     }
+
+    public function get_forms_for_approval_flow($role_ids) {
+        $this->db->select('f.*, u.name as created_by_name, a.status as approval_status');
+        $this->db->from('forms f');
+        $this->db->join('users u', 'f.created_by = u.id', 'left');
+        $this->db->join('approvals a', 'f.id = a.form_id', 'left');
+        $this->db->where('a.status', 'pending');
+        $this->db->where_in('a.role_id', $role_ids);
+        $this->db->order_by('f.created_at', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    public function get_form_approval_flow($id, $role_ids) {
+        $this->db->select('f.*, u.name as created_by_name, a.status as approval_status');
+        $this->db->from('forms f');
+        $this->db->join('users u', 'f.created_by = u.id', 'left');
+        $this->db->join('approvals a', 'f.id = a.form_id', 'left');
+        $this->db->where_in('a.role_id', $role_ids);
+        $this->db->where('f.id', $id);
+        return $this->db->get()->row();
+    }
 }

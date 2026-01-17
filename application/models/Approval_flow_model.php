@@ -33,6 +33,16 @@ class Approval_flow_model extends CI_Model {
         return $this->db->get()->result();
     }
 
+    public function get_flows_by_role($form_type, $role_ids) {
+        $this->db->select('af.*, r.name as role_name');
+        $this->db->from('approval_flows af');
+        $this->db->join('roles r', 'af.role_id = r.id', 'left');
+        $this->db->where('af.form_type', $form_type);
+        $this->db->where_in('af.role_id', $role_ids);
+        $this->db->order_by('af.step_order');
+        return $this->db->get()->result();
+    }
+
     public function create_flow($data) {
         $data['created_at'] = date('Y-m-d H:i:s');
         return $this->db->insert('approval_flows', $data) ? $this->db->insert_id() : false;

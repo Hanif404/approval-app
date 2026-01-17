@@ -36,6 +36,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="<?php echo site_url('approvals'); ?>" class="nav-link">
+            <i class="nav-icon fas fa-check"></i>
+            <p>Approval</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?php echo site_url('approval_flows'); ?>" class="nav-link">
             <i class="nav-icon fas fa-route"></i>
             <p>Approval Flows</p>

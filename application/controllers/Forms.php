@@ -9,7 +9,7 @@ class Forms extends CI_Controller {
             redirect('login');
         }
 
-        $this->load->model(array('Form_model', 'Form_detail_model', 'Form_file_model'));
+        $this->load->model(array('Form_model', 'Form_detail_model', 'Form_file_model', 'Approval_model', 'Approval_flow_model'));
         $this->load->helper(array('form', 'url', 'file'));
         $this->load->library(array('form_validation', 'session', 'upload'));
     }
@@ -270,10 +270,29 @@ class Forms extends CI_Controller {
             show_404();
         }
 
+        if ($form->status !== 'draft') {
+            $this->session->set_flashdata('error', 'Form can only be submitted from draft status');
+            redirect('forms');
+        }
+
         $this->Form_model->update_form($id, array(
             'status' => 'submitted'
         ));
-        $this->session->set_flashdata('success', 'Form updated successfully');
+
+        //create next approval flow
+        $approvalFlow = $this->Approval_flow_model->get_flows_by_type('general');
+        if (count($approvalFlow) > 0) {
+            $firstFlow = $approvalFlow[0];
+            $approvalData = array(
+                'form_id' => $id,
+                'role_id' => $firstFlow->role_id,
+                'user_id' => null,
+                'status' => 'pending'
+            );
+            $this->Approval_model->create_approval($approvalData);
+        }
+        
+        $this->session->set_flashdata('success', 'Form submitted for approval successfully');
         redirect('forms');
     }
 }
