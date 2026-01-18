@@ -30,7 +30,12 @@ class Approvals extends CI_Controller {
 
     public function index() {
         $role = $this->get_user_role();
-        $data['forms'] = $this->Form_model->get_forms_for_approval_flow($role);
+        $submission_date_from = $this->input->get('submission_date_from');
+        $submission_date_to = $this->input->get('submission_date_to');
+        
+        $data['forms'] = $this->Form_model->get_forms_for_approval_flow($role, $submission_date_from, $submission_date_to);
+        $data['submission_date_from'] = $submission_date_from;
+        $data['submission_date_to'] = $submission_date_to;
         $this->load->view('approvals/list', $data);
     }
 

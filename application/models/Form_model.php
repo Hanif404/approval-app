@@ -8,12 +8,18 @@ class Form_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get_all_forms($user_id = null) {
+    public function get_all_forms($user_id = null, $submission_date_from = null, $submission_date_to = null) {
         $this->db->select('f.*, u.name as created_by_name');
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
         if ($user_id) {
             $this->db->where('f.created_by', $user_id);
+        }
+        if ($submission_date_from) {
+            $this->db->where('f.submission_date >=', $submission_date_from . ' 00:00:00');
+        }
+        if ($submission_date_to) {
+            $this->db->where('f.submission_date <=', $submission_date_to . ' 23:59:59');
         }
         $this->db->order_by('f.created_at', 'DESC');
         return $this->db->get()->result();
@@ -47,13 +53,19 @@ class Form_model extends CI_Model {
         return $this->update_form($id, array('status' => $status));
     }
 
-    public function get_forms_for_approval_flow($role_ids) {
+    public function get_forms_for_approval_flow($role_ids, $submission_date_from = null, $submission_date_to = null) {
         $this->db->select('f.*, u.name as created_by_name, a.status as approval_status');
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
         $this->db->join('approvals a', 'f.id = a.form_id', 'left');
         $this->db->where('a.status', 'pending');
         $this->db->where_in('a.role_id', $role_ids);
+        if ($submission_date_from) {
+            $this->db->where('f.submission_date >=', $submission_date_from . ' 00:00:00');
+        }
+        if ($submission_date_to) {
+            $this->db->where('f.submission_date <=', $submission_date_to . ' 23:59:59');
+        }
         $this->db->order_by('f.created_at', 'DESC');
         return $this->db->get()->result();
     }

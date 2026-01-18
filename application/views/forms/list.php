@@ -14,6 +14,26 @@ ob_start();
         </div>
     </div>
     <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <form method="GET" action="<?php echo site_url('forms/index'); ?>" class="form-inline">
+                    <div class="form-group mr-2">
+                        <label for="submission_date_from" class="mr-2">Submission Date From:</label>
+                        <input type="date" class="form-control" id="submission_date_from" name="submission_date_from" value="<?php echo isset($submission_date_from) ? htmlspecialchars($submission_date_from) : ''; ?>">
+                    </div>
+                    <div class="form-group mr-2">
+                        <label for="submission_date_to" class="mr-2">To:</label>
+                        <input type="date" class="form-control" id="submission_date_to" name="submission_date_to" value="<?php echo isset($submission_date_to) ? htmlspecialchars($submission_date_to) : ''; ?>">
+                    </div>
+                    <button type="submit" class="btn btn-info">
+                        <i class="fas fa-search"></i> Filter
+                    </button>
+                    <a href="<?php echo site_url('forms/index'); ?>" class="btn btn-secondary ml-2">
+                        <i class="fas fa-redo"></i> Reset
+                    </a>
+                </form>
+            </div>
+        </div>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
