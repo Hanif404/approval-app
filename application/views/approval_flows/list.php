@@ -14,45 +14,47 @@ ob_start();
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Form Type</th>
-                    <th>Role</th>
-                    <th>Step Order</th>
-                    <th>Created At</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($flows)): ?>
-                    <?php foreach ($flows as $flow): ?>
-                        <tr>
-                            <td><?php echo $flow->id; ?></td>
-                            <td><span class="badge badge-info"><?php echo htmlspecialchars($flow->form_type); ?></span></td>
-                            <td><?php echo htmlspecialchars($flow->role_name); ?></td>
-                            <td><span class="badge badge-secondary"><?php echo $flow->step_order; ?></span></td>
-                            <td><?php echo $flow->created_at ? date('Y-m-d H:i', strtotime($flow->created_at)) : '-'; ?></td>
-                            <td>
-                                <a href="<?php echo site_url('approval_flows/edit/' . $flow->id); ?>" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="<?php echo site_url('approval_flows/delete/' . $flow->id); ?>" 
-                                   class="btn btn-danger btn-sm" 
-                                   onclick="return confirm('Are you sure you want to delete this approval flow?')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-sm">
+                <thead>
                     <tr>
-                        <td colspan="6" class="text-center">No approval flows found</td>
+                        <th>ID</th>
+                        <th>Form Type</th>
+                        <th>Role</th>
+                        <th>Step Order</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php if (!empty($flows)): ?>
+                        <?php foreach ($flows as $flow): ?>
+                            <tr>
+                                <td><?php echo $flow->id; ?></td>
+                                <td><span class="badge badge-info"><?php echo htmlspecialchars($flow->form_type); ?></span></td>
+                                <td><?php echo htmlspecialchars($flow->role_name); ?></td>
+                                <td><span class="badge badge-secondary"><?php echo $flow->step_order; ?></span></td>
+                                <td><?php echo $flow->created_at ? date('Y-m-d H:i', strtotime($flow->created_at)) : '-'; ?></td>
+                                <td>
+                                    <a href="<?php echo site_url('approval_flows/edit/' . $flow->id); ?>" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="<?php echo site_url('approval_flows/delete/' . $flow->id); ?>" 
+                                    class="btn btn-danger btn-sm" 
+                                    onclick="return confirm('Are you sure you want to delete this approval flow?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="text-center">No approval flows found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

@@ -30,46 +30,48 @@ ob_start();
                 </form>
             </div>
         </div>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Applicant</th>
-                    <th>Submission Date</th>
-                    <th>Status</th>
-                    <th>Created By</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($forms)): ?>
-                    <?php foreach ($forms as $form): ?>
-                        <tr>
-                            <td><?php echo $form->id; ?></td>
-                            <td><?php echo htmlspecialchars($form->title); ?></td>
-                            <td><?php echo htmlspecialchars($form->applicant_name); ?></td>
-                            <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
-                            <td>
-                                <span class="badge badge-<?php echo $form->approval_status == 'approved' ? 'success' : ($form->approval_status == 'rejected' ? 'danger' : ($form->approval_status == 'pending' ? 'warning' : 'info')); ?>">
-                                    <?php echo ucfirst($form->approval_status); ?>
-                                </span>
-                            </td>
-                            <td><?php echo htmlspecialchars($form->created_by_name); ?></td>
-                            <td>
-                                <a href="<?php echo site_url('approvals/view/' . $form->id); ?>" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-sm">
+                <thead>
                     <tr>
-                        <td colspan="7" class="text-center">No forms found</td>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Applicant</th>
+                        <th>Submission Date</th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                        <th>Actions</th>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php if (!empty($forms)): ?>
+                        <?php foreach ($forms as $form): ?>
+                            <tr>
+                                <td><?php echo $form->id; ?></td>
+                                <td><?php echo htmlspecialchars($form->title); ?></td>
+                                <td><?php echo htmlspecialchars($form->applicant_name); ?></td>
+                                <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
+                                <td>
+                                    <span class="badge badge-<?php echo $form->approval_status == 'approved' ? 'success' : ($form->approval_status == 'rejected' ? 'danger' : ($form->approval_status == 'pending' ? 'warning' : 'info')); ?>">
+                                        <?php echo ucfirst($form->approval_status); ?>
+                                    </span>
+                                </td>
+                                <td><?php echo htmlspecialchars($form->created_by_name); ?></td>
+                                <td>
+                                    <a href="<?php echo site_url('approvals/view/' . $form->id); ?>" class="btn btn-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="7" class="text-center">No forms found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

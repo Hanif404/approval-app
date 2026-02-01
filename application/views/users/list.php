@@ -14,59 +14,61 @@ ob_start();
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Roles</th>
-                    <th>Created At</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($users)): ?>
-                    <?php foreach ($users as $user): ?>
-                        <tr>
-                            <td><?php echo $user->id; ?></td>
-                            <td><?php echo htmlspecialchars($user->name); ?></td>
-                            <td><?php echo htmlspecialchars($user->email); ?></td>
-                            <td>
-                                <?php if (!empty($user->roles)): ?>
-                                    <?php 
-                                    $role_names = explode(',', $user->roles);
-                                    foreach ($role_names as $role_name): 
-                                    ?>
-                                        <span class="badge badge-primary"><?php echo htmlspecialchars(trim($role_name)); ?></span>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <span class="text-muted">No roles</span>
-                                <?php endif; ?>
-                            </td>
-                            <td><?php echo $user->created_at ? date('Y-m-d H:i', strtotime($user->created_at)) : '-'; ?></td>
-                            <td>
-                                <a href="<?php echo site_url('users/view/' . $user->id); ?>" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="<?php echo site_url('users/edit/' . $user->id); ?>" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="<?php echo site_url('users/delete/' . $user->id); ?>" 
-                                   class="btn btn-danger btn-sm" 
-                                   onclick="return confirm('Are you sure you want to delete this user?')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-sm">
+                <thead>
                     <tr>
-                        <td colspan="6" class="text-center">No users found</td>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php if (!empty($users)): ?>
+                        <?php foreach ($users as $user): ?>
+                            <tr>
+                                <td><?php echo $user->id; ?></td>
+                                <td><?php echo htmlspecialchars($user->name); ?></td>
+                                <td><?php echo htmlspecialchars($user->email); ?></td>
+                                <td>
+                                    <?php if (!empty($user->roles)): ?>
+                                        <?php 
+                                        $role_names = explode(',', $user->roles);
+                                        foreach ($role_names as $role_name): 
+                                        ?>
+                                            <span class="badge badge-primary"><?php echo htmlspecialchars(trim($role_name)); ?></span>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <span class="text-muted">No roles</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo $user->created_at ? date('Y-m-d H:i', strtotime($user->created_at)) : '-'; ?></td>
+                                <td>
+                                    <a href="<?php echo site_url('users/view/' . $user->id); ?>" class="btn btn-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="<?php echo site_url('users/edit/' . $user->id); ?>" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="<?php echo site_url('users/delete/' . $user->id); ?>" 
+                                    class="btn btn-danger btn-sm" 
+                                    onclick="return confirm('Are you sure you want to delete this user?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="text-center">No users found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
