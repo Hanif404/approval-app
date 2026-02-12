@@ -31,9 +31,30 @@ ob_start();
             
             <div class="form-group">
                 <label for="password">Password <span class="text-danger">*</span></label>
-                <input type="password" class="form-control <?php echo form_error('password') ? 'is-invalid' : ''; ?>" 
-                       id="password" name="password" required>
-                <?php echo form_error('password', '<div class="invalid-feedback">', '</div>'); ?>
+                <div class="input-group">
+                    <input type="password" class="form-control <?php echo form_error('password') ? 'is-invalid' : ''; ?>" 
+                           id="password" name="password" required>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password')">
+                            <i class="fas fa-eye" id="password-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <?php echo form_error('password', '<div class="text-danger">', '</div>'); ?>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <input type="password" class="form-control <?php echo form_error('confirm_password') ? 'is-invalid' : ''; ?>" 
+                           id="confirm_password" name="confirm_password" required>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('confirm_password')">
+                            <i class="fas fa-eye" id="confirm_password-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <?php echo form_error('confirm_password', '<div class="text-danger">', '</div>'); ?>
             </div>
             
             <div class="form-group">
@@ -64,3 +85,18 @@ ob_start();
 $content = ob_get_clean();
 $this->load->view('templates/layout', compact('title', 'page_title', 'content'));
 ?>
+<script>
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  const icon = document.getElementById(id + '-icon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.remove('fa-eye');
+    icon.classList.add('fa-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.remove('fa-eye-slash');
+    icon.classList.add('fa-eye');
+  }
+}
+</script>

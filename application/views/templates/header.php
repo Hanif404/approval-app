@@ -48,6 +48,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="<?php echo site_url('roles'); ?>" class="nav-link">
+            <i class="nav-icon fas fa-book"></i>
+            <p>Roles</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?php echo site_url('users'); ?>" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
             <p>Users</p>

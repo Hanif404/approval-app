@@ -43,4 +43,44 @@ class Auth extends CI_Controller {
         $this->session->sess_destroy();
         redirect('login');
     }
+
+    public function forgot_password() {
+        if ($this->session->userdata('user_id')) {
+            redirect('');
+        }
+
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('templates/forgot_password');
+            return;
+        }
+
+        $email = $this->input->post('email');
+        $this->load->model('User_model');
+        $user = $this->User_model->get_user_by_email($email);
+
+        if (!$user) {
+            $data['error'] = 'Email not found';
+            $this->load->view('templates/forgot_password', $data);
+            return;
+        }
+
+        $new_password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
+        $this->User_model->update_password($user->id, $new_password);
+
+        $this->load->library('email');
+        $this->email->from('noreply@approvalapp.com', 'Approval App');
+        $this->email->to($email);
+        $this->email->subject('Password Reset');
+        $this->email->message('Your new password is: ' . $new_password);
+
+        if ($this->email->send()) {
+            $data['success'] = 'New password sent to your email';
+        } else {
+            $data['error'] = 'Failed to send email. Please contact administrator.';
+        }
+
+        $this->load->view('templates/forgot_password', $data);
+    }
 }

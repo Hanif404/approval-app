@@ -3,7 +3,7 @@ $page_title = 'Welcome';
 ob_start();
 ?>
 
-<div class="card">
+<!-- <div class="card">
     <div class="card-header">
         <h3 class="card-title">Welcome to CodeIgniter</h3>
         <div class="card-tools">
@@ -14,7 +14,9 @@ ob_start();
 
 The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
 	</div>
-</div>
+</div> -->
+
+<img src="<?php echo base_url('asset/templates/adminlte/img/bg-image.png'); ?>" alt="CodeIgniter Logo" style="position: fixed; right: 20px; bottom: 20px; max-width: 300px; z-index: 9999;">
 
 <?php
 $content = ob_get_clean();

@@ -33,15 +33,21 @@
         <?php echo form_error('email', '<div class="text-danger">', '</div>'); ?>
 
         <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password">
+          <input type="password" name="password" id="password" class="form-control" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text"><span class="fas fa-lock"></span></div>
+            <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password')">
+              <i class="fas fa-eye" id="password-icon"></i>
+            </button>
           </div>
         </div>
         <?php echo form_error('password', '<div class="text-danger">', '</div>'); ?>
 
         <div class="row">
           <div class="col-8">
+            <p class="mb-0">
+              <a href="<?php echo site_url('forgot-password'); ?>">Forgot password?</a>
+            </p>
           </div>
           <div class="col-4">
             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
@@ -55,5 +61,20 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo base_url('vendor/almasaeed2010/adminlte/dist/js/adminlte.min.js'); ?>"></script>
+<script>
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  const icon = document.getElementById(id + '-icon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.remove('fa-eye');
+    icon.classList.add('fa-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.remove('fa-eye-slash');
+    icon.classList.add('fa-eye');
+  }
+}
+</script>
 </body>
 </html>

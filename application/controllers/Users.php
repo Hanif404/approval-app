@@ -8,6 +8,26 @@ class Users extends CI_Controller {
         $this->load->model(array('User_model', 'Role_model'));
         $this->load->helper(array('form', 'url'));
         $this->load->library(array('form_validation', 'session'));
+        $this->check_admin();
+    }
+    private function check_admin() {
+        if (!$this->session->userdata('user_id')) {
+            redirect('auth/login');
+        }
+        
+        $user_roles = $this->User_model->get_user_roles($this->session->userdata('user_id'));
+        $is_admin = false;
+        foreach ($user_roles as $role) {
+            if (strtolower($role->name) === 'admin') {
+                $is_admin = true;
+                break;
+            }
+        }
+        
+        if (!$is_admin) {
+            $this->session->set_flashdata('error', 'Access denied. Admin role required.');
+            redirect('');
+        }
     }
 
     public function index() {
@@ -22,6 +42,7 @@ class Users extends CI_Controller {
             $this->form_validation->set_rules('name', 'Name', 'required|max_length[100]');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[100]');
             $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
 
             if ($this->form_validation->run()) {
                 if ($this->User_model->email_exists($this->input->post('email'))) {
@@ -57,7 +78,11 @@ class Users extends CI_Controller {
         if ($this->input->post()) {
             $this->form_validation->set_rules('name', 'Name', 'required|max_length[100]');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[100]');
-            $this->form_validation->set_rules('password', 'Password', 'min_length[6]');
+            
+            if ($this->input->post('password')) {
+                $this->form_validation->set_rules('password', 'Password', 'min_length[6]');
+                $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'matches[password]');
+            }
 
             if ($this->form_validation->run()) {
                 if ($this->User_model->email_exists($this->input->post('email'), $id)) {

@@ -58,7 +58,7 @@ class Form_model extends CI_Model {
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
         $this->db->join('approvals a', 'f.id = a.form_id', 'left');
-        $this->db->where('a.status', 'pending');
+        // $this->db->where('a.status', 'pending');
         $this->db->where_in('a.role_id', $role_ids);
         if ($submission_date_from) {
             $this->db->where('f.submission_date >=', $submission_date_from . ' 00:00:00');
