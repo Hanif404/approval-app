@@ -8,7 +8,7 @@ ob_start();
     <div class="card-header">
         <h3 class="card-title">Approval Logs</h3>
         <div class="card-tools">
-            <a href="<?php echo site_url('forms/view/'.$id); ?>" class="btn btn-secondary btn-sm">
+            <a href="<?php echo site_url($page.'/view/'.$id); ?>" class="btn btn-secondary btn-sm">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
         </div>

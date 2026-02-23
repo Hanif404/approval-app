@@ -21,6 +21,12 @@ ob_start();
                         <label for="submission_date_to" class="mr-2">To:</label>
                         <input type="date" class="form-control" id="submission_date_to" name="submission_date_to" value="<?php echo isset($submission_date_to) ? htmlspecialchars($submission_date_to) : date("Y-m-t"); ?>">
                     </div>
+                    <select name="status" class="form-control mr-2">
+                        <option value="all">All Statuses</option>
+                        <option value="pending" <?php echo (isset($status) && $status == 'pending') ? 'selected' : ''; ?>>Pending</option>
+                        <option value="approved" <?php echo (isset($status) && $status == 'approved') ? 'selected' : ''; ?>>Approved</option>
+                        <option value="rejected" <?php echo (isset($status) && $status == 'rejected') ? 'selected' : ''; ?>>Rejected</option>
+                    </select>
                     <button type="submit" class="btn btn-info">
                         <i class="fas fa-search"></i> Filter
                     </button>

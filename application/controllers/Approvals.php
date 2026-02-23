@@ -32,10 +32,12 @@ class Approvals extends CI_Controller {
         $role = $this->get_user_role();
         $submission_date_from = $this->input->get('submission_date_from') ? $this->input->get('submission_date_from') : date('Y-m-01');
         $submission_date_to = $this->input->get('submission_date_to') ? $this->input->get('submission_date_to') : date('Y-m-t');
+        $status = $this->input->get('status') ? $this->input->get('status') : 'pending';
         
-        $data['forms'] = $this->Form_model->get_forms_for_approval_flow($role, $submission_date_from, $submission_date_to);
+        $data['forms'] = $this->Form_model->get_forms_for_approval_flow($role, $submission_date_from, $submission_date_to, $status);
         $data['submission_date_from'] = $submission_date_from;
         $data['submission_date_to'] = $submission_date_to;
+        $data['status'] = $status;
         $this->load->view('approvals/list', $data);
     }
 
@@ -124,6 +126,8 @@ class Approvals extends CI_Controller {
     public function logs($id) {
         $data['approvals'] = $this->Approval_model->get_approval_by_form_id($id);
         $data['id'] = $id;
+        $page = $this->input->get('page', TRUE);
+        $data['page'] = $page;
         $this->load->view('approvals/log', $data);
     }
 }

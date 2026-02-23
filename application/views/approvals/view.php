@@ -16,6 +16,9 @@ ob_start();
                 <i class="fas fa-times"></i> Reject
             </button>
             <?php endif; ?>
+            <a href="<?php echo site_url('approvals/logs/' . $form->id.'?page=approvals'); ?>" class="btn btn-primary btn-sm">
+                <i class="fas fa-history"></i> History
+            </a>
             <a href="<?php echo site_url('approvals'); ?>" class="btn btn-secondary btn-sm">
                 <i class="fas fa-arrow-left"></i> Back
             </a>

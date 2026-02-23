@@ -17,7 +17,7 @@ ob_start();
             </a>
             <?php endif; ?>
             <?php if ($form->status != 'draft'): ?>
-                <a href="<?php echo site_url('approvals/logs/' . $form->id); ?>" class="btn btn-primary btn-sm">
+                <a href="<?php echo site_url('approvals/logs/' . $form->id.'?page=forms'); ?>" class="btn btn-primary btn-sm">
                     <i class="fas fa-history"></i> History
                 </a>
             <?php endif; ?> 

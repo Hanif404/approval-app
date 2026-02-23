@@ -28,7 +28,7 @@ ob_start();
                     <div class="form-group">
                         <label for="submission_date">Submission Date <span class="text-danger">*</span></label>
                         <input type="date" class="form-control <?php echo form_error('submission_date') ? 'is-invalid' : ''; ?>" 
-                               id="submission_date" name="submission_date" value="<?php echo set_value('submission_date'); ?>" required>
+                               id="submission_date" name="submission_date" value="<?php echo set_value('submission_date', date('Y-m-d')); ?>" required>
                         <?php echo form_error('submission_date', '<div class="invalid-feedback">', '</div>'); ?>
                     </div>
                 </div>
