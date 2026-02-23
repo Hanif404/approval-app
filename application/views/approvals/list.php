@@ -15,11 +15,11 @@ ob_start();
                 <form method="GET" action="<?php echo site_url('approvals/index'); ?>" class="form-inline">
                     <div class="form-group mr-2">
                         <label for="submission_date_from" class="mr-2">Submission Date From:</label>
-                        <input type="date" class="form-control" id="submission_date_from" name="submission_date_from" value="<?php echo isset($submission_date_from) ? htmlspecialchars($submission_date_from) : ''; ?>">
+                        <input type="date" class="form-control" id="submission_date_from" name="submission_date_from" value="<?php echo isset($submission_date_from) ? htmlspecialchars($submission_date_from) : date("Y-m-01"); ?>">
                     </div>
                     <div class="form-group mr-2">
                         <label for="submission_date_to" class="mr-2">To:</label>
-                        <input type="date" class="form-control" id="submission_date_to" name="submission_date_to" value="<?php echo isset($submission_date_to) ? htmlspecialchars($submission_date_to) : ''; ?>">
+                        <input type="date" class="form-control" id="submission_date_to" name="submission_date_to" value="<?php echo isset($submission_date_to) ? htmlspecialchars($submission_date_to) : date("Y-m-t"); ?>">
                     </div>
                     <button type="submit" class="btn btn-info">
                         <i class="fas fa-search"></i> Filter

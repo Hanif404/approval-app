@@ -16,8 +16,8 @@ class Forms extends CI_Controller {
 
     public function index() {
         $user_id = $this->session->userdata('user_id');
-        $submission_date_from = $this->input->get('submission_date_from');
-        $submission_date_to = $this->input->get('submission_date_to');
+        $submission_date_from = $this->input->get('submission_date_from') ? $this->input->get('submission_date_from') : date('Y-m-01');
+        $submission_date_to = $this->input->get('submission_date_to') ? $this->input->get('submission_date_to') : date('Y-m-t');
         
         $data['forms'] = $this->Form_model->get_all_forms($user_id, $submission_date_from, $submission_date_to);
         $data['submission_date_from'] = $submission_date_from;

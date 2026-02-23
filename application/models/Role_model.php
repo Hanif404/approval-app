@@ -28,7 +28,15 @@ class Role_model extends CI_Model {
     }
 
     public function delete_role($id) {
+        if ($this->is_role_used($id)) {
+            return false;
+        }
         return $this->db->delete('roles', array('id' => $id));
+    }
+
+    public function is_role_used($id) {
+        $this->db->where('role_id', $id);
+        return $this->db->get('user_roles')->num_rows() > 0;
     }
 
     public function role_name_exists($name, $exclude_id = null) {
