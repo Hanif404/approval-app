@@ -37,10 +37,6 @@ ob_start();
                         <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
                     </tr>
                     <tr>
-                        <th>Applicant Name:</th>
-                        <td><?php echo htmlspecialchars($form->applicant_name); ?></td>
-                    </tr>
-                    <tr>
                         <th>CAO Number:</th>
                         <td><?php echo htmlspecialchars($form->cao_number); ?></td>
                     </tr>

@@ -42,7 +42,7 @@ ob_start();
                     <tr>
                         <th>ID</th>
                         <th>Title</th>
-                        <th>Applicant</th>
+                        <th>Project Name</th>
                         <th>Submission Date</th>
                         <th>Status</th>
                         <th>Created By</th>
@@ -55,7 +55,7 @@ ob_start();
                             <tr>
                                 <td><?php echo $form->id; ?></td>
                                 <td><?php echo htmlspecialchars($form->title); ?></td>
-                                <td><?php echo htmlspecialchars($form->applicant_name); ?></td>
+                                <td><?php echo htmlspecialchars($form->project_name); ?></td>
                                 <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
                                 <td>
                                     <span class="badge badge-<?php echo $form->approval_status == 'approved' ? 'success' : ($form->approval_status == 'rejected' ? 'danger' : ($form->approval_status == 'pending' ? 'warning' : 'info')); ?>">

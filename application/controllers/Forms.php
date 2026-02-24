@@ -11,7 +11,7 @@ class Forms extends CI_Controller {
 
         $this->load->model(array('Form_model', 'Form_detail_model', 'Form_file_model', 'Approval_model', 'Approval_flow_model'));
         $this->load->helper(array('form', 'url', 'file'));
-        $this->load->library(array('form_validation', 'session', 'upload'));
+        $this->load->library(array('form_validation', 'session', 'upload', 'form_pengajuan'));
     }
 
     public function index() {
@@ -29,14 +29,13 @@ class Forms extends CI_Controller {
         if ($this->input->post()) {
             $this->form_validation->set_rules('title', 'Title', 'required|max_length[150]');
             $this->form_validation->set_rules('submission_date', 'Submission Date', 'required');
-            $this->form_validation->set_rules('applicant_name', 'Applicant Name', 'required|max_length[150]');
+            $this->form_validation->set_rules('project_name', 'Project Name', 'required|max_length[150]');
 
             if ($this->form_validation->run()) {
                 $data = array(
                     'title' => $this->input->post('title'),
                     'description' => $this->input->post('description'),
                     'submission_date' => $this->input->post('submission_date'),
-                    'applicant_name' => $this->input->post('applicant_name'),
                     'cao_number' => $this->input->post('cao_number'),
                     'project_name' => $this->input->post('project_name'),
                     'payment_receiver_name' => $this->input->post('payment_receiver_name'),
@@ -68,14 +67,13 @@ class Forms extends CI_Controller {
         if ($this->input->post()) {
             $this->form_validation->set_rules('title', 'Title', 'required|max_length[150]');
             $this->form_validation->set_rules('submission_date', 'Submission Date', 'required');
-            $this->form_validation->set_rules('applicant_name', 'Applicant Name', 'required|max_length[150]');
+            $this->form_validation->set_rules('project_name', 'Project Name', 'required|max_length[150]');
 
             if ($this->form_validation->run()) {
                 $update_data = array(
                     'title' => $this->input->post('title'),
                     'description' => $this->input->post('description'),
                     'submission_date' => $this->input->post('submission_date'),
-                    'applicant_name' => $this->input->post('applicant_name'),
                     'cao_number' => $this->input->post('cao_number'),
                     'project_name' => $this->input->post('project_name'),
                     'payment_receiver_name' => $this->input->post('payment_receiver_name'),
@@ -215,7 +213,7 @@ class Forms extends CI_Controller {
         }
 
         $config['upload_path'] = './uploads/forms/';
-        $config['allowed_types'] = 'pdf|doc|docx|xls|xlsx|jpg|jpeg|png';
+        $config['allowed_types'] = 'jpg|jpeg|png';
         $config['max_size'] = 5120;
         $config['encrypt_name'] = true;
 
@@ -299,5 +297,17 @@ class Forms extends CI_Controller {
         
         $this->session->set_flashdata('success', 'Form submitted for approval successfully');
         redirect('forms');
+    }
+
+    public function generate_pdf($id) {
+        $form = $this->Form_model->get_form($id);
+        if (!$form) {
+            show_404();
+        }
+
+        $details = $this->Form_detail_model->get_details($id);
+        $total_amount = $this->Form_detail_model->get_total_amount($id);
+        
+        $this->form_pengajuan->generate($form, $details, $total_amount);
     }
 }

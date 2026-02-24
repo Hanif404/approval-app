@@ -17,6 +17,9 @@ ob_start();
             </a>
             <?php endif; ?>
             <?php if ($form->status != 'draft'): ?>
+                <a href="<?php echo site_url('forms/generate_pdf/' . $form->id); ?>" class="btn btn-primary btn-sm" target="_blank">
+                    <i class="fa fa-file-pdf"></i> PDF Report
+                </a>
                 <a href="<?php echo site_url('approvals/logs/' . $form->id.'?page=forms'); ?>" class="btn btn-primary btn-sm">
                     <i class="fas fa-history"></i> History
                 </a>
@@ -37,10 +40,6 @@ ob_start();
                     <tr>
                         <th>Submission Date:</th>
                         <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Applicant Name:</th>
-                        <td><?php echo htmlspecialchars($form->applicant_name); ?></td>
                     </tr>
                     <tr>
                         <th>CAO Number:</th>

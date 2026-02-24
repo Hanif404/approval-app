@@ -42,10 +42,10 @@ ob_start();
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="applicant_name">Applicant Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control <?php echo form_error('applicant_name') ? 'is-invalid' : ''; ?>" 
-                               id="applicant_name" name="applicant_name" value="<?php echo set_value('applicant_name'); ?>" required>
-                        <?php echo form_error('applicant_name', '<div class="invalid-feedback">', '</div>'); ?>
+                        <label for="project_name">Project Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control <?php echo form_error('project_name') ? 'is-invalid' : ''; ?>" 
+                        id="project_name" name="project_name" value="<?php echo set_value('project_name'); ?>" required>
+                        <?php echo form_error('project_name', '<div class="invalid-feedback">', '</div>'); ?>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -54,11 +54,6 @@ ob_start();
                         <input type="text" class="form-control" id="cao_number" name="cao_number" value="<?php echo set_value('cao_number'); ?>">
                     </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="project_name">Project Name</label>
-                <input type="text" class="form-control" id="project_name" name="project_name" value="<?php echo set_value('project_name'); ?>">
             </div>
 
             <hr>
