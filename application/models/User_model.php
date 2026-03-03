@@ -102,6 +102,14 @@ class User_model extends CI_Model {
         return $this->db->get_where('users', array('email' => $email))->row();
     }
 
+    public function get_users_by_role($role_id) {
+        $this->db->select('u.*');
+        $this->db->from('users u');
+        $this->db->join('user_roles ur', 'u.id = ur.user_id');
+        $this->db->where('ur.role_id', $role_id);
+        return $this->db->get()->result();
+    }
+
     public function update_password($user_id, $password) {
         $data = array(
             'password' => password_hash($password, PASSWORD_DEFAULT),

@@ -34,7 +34,11 @@ class Approvals extends CI_Controller {
         $submission_date_to = $this->input->get('submission_date_to') ? $this->input->get('submission_date_to') : date('Y-m-t');
         $status = $this->input->get('status') ? $this->input->get('status') : 'pending';
         
-        $data['forms'] = $this->Form_model->get_forms_for_approval_flow($role, $submission_date_from, $submission_date_to, $status);
+        //check approval by user
+        $user_id = $this->session->userdata('user_id');
+        $spesific = $this->Approval_model->check_approval_spesific($user_id);
+
+        $data['forms'] = $this->Form_model->get_forms_for_approval_flow($role, $submission_date_from, $submission_date_to, $status, $spesific, $user_id);
         $data['submission_date_from'] = $submission_date_from;
         $data['submission_date_to'] = $submission_date_to;
         $data['status'] = $status;
@@ -56,11 +60,21 @@ class Approvals extends CI_Controller {
 
     public function approve($id) {
         $role = $this->get_user_role();
-        $this->Approval_model->update_approval($id, $role, array(
-            'status' => 'approved', 
-            'user_id' => $this->session->userdata('user_id'), 
-            'approved_at' => date('Y-m-d H:i:s')
-        ));
+        $user_id = $this->session->userdata('user_id');
+        $spesific = $this->Approval_model->check_approval_spesific($user_id, $id);
+        if($spesific > 0){
+            $this->Approval_model->update_approval_by_user($id, $user_id, array(
+                'status' => 'approved', 
+                'approved_at' => date('Y-m-d H:i:s')
+            ));
+        }else{
+            $this->Approval_model->update_approval_by_roles($id, $role, array(
+                'status' => 'approved', 
+                'user_id' => $user_id, 
+                'approved_at' => date('Y-m-d H:i:s')
+            ));
+        }
+        
         //create next approval flow
         $current_step = $this->check_user_role_step_order();
         $approval_flow = $this->Approval_flow_model->get_flows_by_type('general');
@@ -73,7 +87,7 @@ class Approvals extends CI_Controller {
                     $approvalData = array(
                         'form_id' => $id,
                         'role_id' => $flow->role_id,
-                        'user_id' => null,
+                        'user_id' => $flow->user_id,
                         'status' => 'pending'
                     );
                     $this->Approval_model->create_approval($approvalData);
@@ -94,12 +108,22 @@ class Approvals extends CI_Controller {
         $role = $this->get_user_role();
         $rejection_reason = $this->input->post('rejection_reason');
         
-        $this->Approval_model->update_approval($id, $role, array(
-            'status' => 'rejected', 
-            'user_id' => $this->session->userdata('user_id'), 
-            'approved_at' => date('Y-m-d H:i:s'),
-            'note' => $rejection_reason
-        ));
+        $user_id = $this->session->userdata('user_id');
+        $spesific = $this->Approval_model->check_approval_spesific($user_id, $id);
+        if($spesific > 0){
+            $this->Approval_model->update_approval_by_user($id, $user_id, array(
+                'status' => 'rejected', 
+                'approved_at' => date('Y-m-d H:i:s'),
+                'note' => $rejection_reason
+            ));
+        }else{
+            $this->Approval_model->update_approval_by_roles($id, $role, array(
+                'status' => 'rejected', 
+                'user_id' => $user_id, 
+                'approved_at' => date('Y-m-d H:i:s'),
+                'note' => $rejection_reason
+            ));
+        }
         
         // Mark form as rejected
         $this->Form_model->update_status($id, 'rejected');

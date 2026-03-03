@@ -46,7 +46,9 @@ class Approval_flows extends CI_Controller {
                 $data = array(
                     'form_type' => $this->input->post('form_type'),
                     'role_id' => $this->input->post('role_id'),
-                    'step_order' => $this->input->post('step_order')
+                    'step_order' => $this->input->post('step_order'),
+                    'user_id' => $this->input->post('user_id') ?: null,
+                    'category' => $this->input->post('category')
                 );
 
                 if ($this->Approval_flow_model->create_flow($data)) {
@@ -76,7 +78,9 @@ class Approval_flows extends CI_Controller {
                 $update_data = array(
                     'form_type' => $this->input->post('form_type'),
                     'role_id' => $this->input->post('role_id'),
-                    'step_order' => $this->input->post('step_order')
+                    'step_order' => $this->input->post('step_order'),
+                    'user_id' => $this->input->post('user_id') ?: null,
+                    'category' => $this->input->post('category')
                 );
 
                 if ($this->Approval_flow_model->update_flow($id, $update_data)) {
@@ -104,5 +108,11 @@ class Approval_flows extends CI_Controller {
             $this->session->set_flashdata('error', 'Failed to delete approval flow');
         }
         redirect('approval_flows');
+    }
+
+    public function get_users_by_role($role_id) {
+        $users = $this->User_model->get_users_by_role($role_id);
+        header('Content-Type: application/json');
+        echo json_encode($users);
     }
 }

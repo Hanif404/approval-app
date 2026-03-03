@@ -20,6 +20,9 @@ ob_start();
                 <a href="<?php echo site_url('forms/generate_pdf/' . $form->id); ?>" class="btn btn-primary btn-sm" target="_blank">
                     <i class="fa fa-file-pdf"></i> PDF Report
                 </a>
+                <a href="<?php echo site_url('forms/generate_pdf_with_img/' . $form->id); ?>" class="btn btn-primary btn-sm" target="_blank">
+                    <i class="fa fa-file-pdf"></i> PDF Report Image
+                </a>
                 <a href="<?php echo site_url('approvals/logs/' . $form->id.'?page=forms'); ?>" class="btn btn-primary btn-sm">
                     <i class="fas fa-history"></i> History
                 </a>

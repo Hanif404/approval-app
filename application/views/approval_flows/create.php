@@ -18,8 +18,8 @@ ob_start();
             <div class="form-group">
                 <label for="form_type">Form Type</label>
                 <input type="text" class="form-control <?php echo form_error('form_type') ? 'is-invalid' : ''; ?>" 
-                       id="form_type" name="form_type" value="<?php echo set_value('form_type'); ?>" 
-                       placeholder="e.g., general, invoice, reimbursement">
+                       id="form_type" name="form_type" value="<?php echo set_value('form_type') ? set_value('form_type') :"general"; ?>" 
+                       placeholder="e.g., general, invoice, reimbursement" readonly>
                 <?php if (form_error('form_type')): ?>
                     <div class="invalid-feedback"><?php echo form_error('form_type'); ?></div>
                 <?php endif; ?>
@@ -50,6 +50,43 @@ ob_start();
                     <div class="invalid-feedback"><?php echo form_error('step_order'); ?></div>
                 <?php endif; ?>
             </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="mengetahui" <?php echo set_select('category', 'mengetahui'); ?>>Mengetahui</option>
+                    <option value="menyetujui" <?php echo set_select('category', 'menyetujui', true); ?>>Menyetujui</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="user_id">Specific User (Optional)</label>
+                <select class="form-control" id="user_id" name="user_id">
+                    <option value="">Any user from selected role</option>
+                </select>
+                <small class="form-text text-muted">Select a role first to load users</small>
+            </div>
+
+            <script>
+            document.getElementById('role_id').addEventListener('change', function() {
+                var roleId = this.value;
+                var userSelect = document.getElementById('user_id');
+                userSelect.innerHTML = '<option value="">Any user from selected role</option>';
+                
+                if (roleId) {
+                    fetch('<?php echo site_url('approval_flows/get_users_by_role'); ?>/' + roleId)
+                        .then(response => response.json())
+                        .then(users => {
+                            users.forEach(user => {
+                                var option = document.createElement('option');
+                                option.value = user.id;
+                                option.textContent = user.name + ' (' + user.email + ')';
+                                userSelect.appendChild(option);
+                            });
+                        });
+                }
+            });
+            </script>
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">

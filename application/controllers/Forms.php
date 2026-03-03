@@ -11,7 +11,7 @@ class Forms extends CI_Controller {
 
         $this->load->model(array('Form_model', 'Form_detail_model', 'Form_file_model', 'Approval_model', 'Approval_flow_model'));
         $this->load->helper(array('form', 'url', 'file'));
-        $this->load->library(array('form_validation', 'session', 'upload', 'form_pengajuan'));
+        $this->load->library(array('form_validation', 'session', 'upload', 'form_pengajuan','form_pengajuan_image'));
     }
 
     public function index() {
@@ -289,7 +289,7 @@ class Forms extends CI_Controller {
             $approvalData = array(
                 'form_id' => $id,
                 'role_id' => $firstFlow->role_id,
-                'user_id' => null,
+                'user_id' => $firstFlow->user_id,
                 'status' => 'pending'
             );
             $this->Approval_model->create_approval($approvalData);
@@ -307,7 +307,22 @@ class Forms extends CI_Controller {
 
         $details = $this->Form_detail_model->get_details($id);
         $total_amount = $this->Form_detail_model->get_total_amount($id);
+        $approval_flow = $this->Approval_flow_model->get_flows_by_type_user('general');
         
-        $this->form_pengajuan->generate($form, $details, $total_amount);
+        $this->form_pengajuan->generate($form, $details, $approval_flow, $total_amount);
+    }
+
+    public function generate_pdf_with_img($id) {
+        $form = $this->Form_model->get_form($id);
+        if (!$form) {
+            show_404();
+        }
+
+        $details = $this->Form_detail_model->get_details($id);
+        $total_amount = $this->Form_detail_model->get_total_amount($id);
+        $approval_flow = $this->Approval_flow_model->get_flows_by_type_user('general');
+        $detail_images = $this->Form_file_model->get_files($id);
+        
+        $this->form_pengajuan_image->generate($form, $details, $detail_images, $approval_flow, $total_amount);
     }
 }

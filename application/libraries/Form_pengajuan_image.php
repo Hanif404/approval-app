@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once FCPATH . 'vendor/autoload.php';
 
-class form_pengajuan extends FPDF {
+class form_pengajuan_image extends FPDF {
 
     function Header()
     {
@@ -14,7 +14,7 @@ class form_pengajuan extends FPDF {
         $this->Ln(8);
     }
     
-    public function generate($form, $details, $approvals, $total_amount) {
+    public function generate($form, $details, $detail_images, $approvals, $total_amount) {
         $this->AddPage();
         $this->SetFont('Arial','',10);
 
@@ -22,27 +22,22 @@ class form_pengajuan extends FPDF {
         // INFORMASI HEADER
         // ======================
 
-        $this->Cell(40,6,'Tanggal Pengajuan');
+        $this->Cell(40,6,'Responsible Name');
         $this->Cell(5,6,':');
-        $this->Cell(60,6,$form->submission_date);
+        $this->Cell(60,6,$form->created_by_name);
 
         $this->Cell(30,6,'No CAO');
         $this->Cell(5,6,':');
         $this->Cell(20,6,$form->cao_number);
         $this->Ln();
 
-        $this->Cell(40,6,'Nama Penerima');
+        $this->Cell(40,6,'Tanggal Pengajuan');
         $this->Cell(5,6,':');
-        $this->Cell(60,6,$form->payment_receiver_name);
+        $this->Cell(60,6,$form->submission_date);
 
         $this->Cell(30,6,'Jenis Transaksi');
         $this->Cell(5,6,':');
         $this->Cell(20,6,$form->transaction_type);
-        $this->Ln();
-
-        $this->Cell(40,6,'No Rekening / Bank');
-        $this->Cell(5,6,':');
-        $this->Cell(60,6,$form->bank_account_number . ' / ' . $form->bank_name);
         $this->Ln(10);
 
         // ======================
@@ -131,6 +126,24 @@ class form_pengajuan extends FPDF {
             }
         }
 
+        $this->addImagePage($detail_images);
         $this->Output('I','form_pengajuan_' . $form->id . '.pdf');
+    }
+
+    function addImagePage($detail_images) {
+        if (empty($detail_images)) {
+            return;
+        }
+
+        foreach ($detail_images as $image) {
+            $this->AddPage();
+            // $this->SetFont('Arial','B',12);
+            // $this->Cell(0,10,'Lampiran Gambar',0,1,'C');
+            $this->Ln(5);
+
+            if (file_exists($image->file_path)) {
+                $this->Image($image->file_path, 10, $this->GetY(), 190);
+            }
+        }
     }
 }

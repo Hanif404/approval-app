@@ -42,13 +42,29 @@ class Approval_model extends CI_Model {
         return $this->db->insert('approvals', $data);
     }
 
-    public function update_approval($id, $roles, $data) {
+    public function update_approval_by_roles($id, $roles, $data) {
         $this->db->where_in('role_id', $roles);
         return $this->db->update('approvals', $data, ['form_id' => $id, 'user_id' => null]);
     }
 
+    public function update_approval_by_user($id, $user_id, $data) {
+        return $this->db->update('approvals', $data, ['form_id' => $id, 'user_id' => $user_id]);
+    }
+
     public function delete_approval($id) {
         return $this->db->delete('approvals', ['id' => $id]);
+    }
+
+    public function check_approval_spesific($user_id, $id = NULL){
+        $filter = ['user_id' => $user_id, 'status' => 'pending'];
+        if ($id != NULL){
+            $filter['form_id'] = $id;
+        }
+        return $this->db
+            ->where($filter)
+            ->limit(1)
+            ->get('approvals')
+            ->num_rows();
     }
 
 }

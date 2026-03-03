@@ -53,13 +53,47 @@ class Form_model extends CI_Model {
         return $this->update_form($id, array('status' => $status));
     }
 
-    public function get_forms_for_approval_flow($role_ids, $submission_date_from = null, $submission_date_to = null, $status = null) {
+    // public function get_forms_for_approval_flow($role_ids, $submission_date_from = null, $submission_date_to = null, $status = null) {
+    //     $this->db->select('f.*, u.name as created_by_name, a.status as approval_status');
+    //     $this->db->from('forms f');
+    //     $this->db->join('users u', 'f.created_by = u.id', 'left');
+    //     $this->db->join('approvals a', 'f.id = a.form_id', 'left');
+    //     // $this->db->where('a.status', 'pending');
+    //     $this->db->where_in('a.role_id', $role_ids);
+    //     if ($status != null && $status != 'all') {
+    //         $this->db->where('a.status', $status);
+    //     }
+    //     if ($submission_date_from) {
+    //         $this->db->where('f.submission_date >=', $submission_date_from . ' 00:00:00');
+    //     }
+    //     if ($submission_date_to) {
+    //         $this->db->where('f.submission_date <=', $submission_date_to . ' 23:59:59');
+    //     }
+    //     $this->db->order_by('f.created_at', 'DESC');
+    //     return $this->db->get()->result();
+    // }
+
+    public function get_forms_for_approval_flow($role_ids, $submission_date_from = null, $submission_date_to = null, $status = null, $spesific = 0, $user_id) {
         $this->db->select('f.*, u.name as created_by_name, a.status as approval_status');
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
-        $this->db->join('approvals a', 'f.id = a.form_id', 'left');
-        // $this->db->where('a.status', 'pending');
-        $this->db->where_in('a.role_id', $role_ids);
+
+        if ($spesific > 0) {
+            $this->db->join(
+                'approvals a',
+                'f.id = a.form_id AND a.user_id = ' . $this->db->escape($user_id),
+                'left'
+            );
+        } else {
+            $this->db->join(
+                'approvals a',
+                'f.id = a.form_id',
+                'left'
+            );
+            $this->db->where('a.user_id', NULL);
+            $this->db->where_in('a.role_id', $role_ids);
+        }
+        
         if ($status != null && $status != 'all') {
             $this->db->where('a.status', $status);
         }

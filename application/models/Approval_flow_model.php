@@ -57,4 +57,14 @@ class Approval_flow_model extends CI_Model {
     public function delete_flow($id) {
         return $this->db->delete('approval_flows', array('id' => $id));
     }
+
+    public function get_flows_by_type_user($form_type) {
+        $this->db->select('af.*, r.name as role_name, us.name as user_name');
+        $this->db->from('approval_flows af');
+        $this->db->join('roles r', 'af.role_id = r.id', 'left');
+        $this->db->join('users us', 'af.user_id = us.id', 'left');
+        $this->db->where('af.form_type', $form_type);
+        $this->db->order_by('af.step_order');
+        return $this->db->get()->result();
+    }
 }

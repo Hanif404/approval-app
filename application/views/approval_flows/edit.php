@@ -20,7 +20,7 @@ ob_start();
                 <input type="text" class="form-control <?php echo form_error('form_type') ? 'is-invalid' : ''; ?>" 
                        id="form_type" name="form_type" 
                        value="<?php echo set_value('form_type', $flow->form_type); ?>" 
-                       placeholder="e.g., general, invoice, reimbursement">
+                       placeholder="e.g., general, invoice, reimbursement" readonly>
                 <?php if (form_error('form_type')): ?>
                     <div class="invalid-feedback"><?php echo form_error('form_type'); ?></div>
                 <?php endif; ?>
@@ -53,6 +53,57 @@ ob_start();
                     <div class="invalid-feedback"><?php echo form_error('step_order'); ?></div>
                 <?php endif; ?>
             </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="mengetahui" <?php echo set_select('category', 'mengetahui', $flow->category == 'mengetahui'); ?>>Mengetahui</option>
+                    <option value="menyetujui" <?php echo set_select('category', 'menyetujui', $flow->category == 'menyetujui'); ?>>Menyetujui</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="user_id">Specific User (Optional)</label>
+                <select class="form-control" id="user_id" name="user_id">
+                    <option value="">Any user from selected role</option>
+                </select>
+                <small class="form-text text-muted">Select a role first to load users</small>
+            </div>
+
+            <script>
+            var selectedUserId = '<?php echo $flow->user_id; ?>';
+            
+            function loadUsers(roleId, selectUserId) {
+                var userSelect = document.getElementById('user_id');
+                userSelect.innerHTML = '<option value="">Any user from selected role</option>';
+                
+                if (roleId) {
+                    fetch('<?php echo site_url('approval_flows/get_users_by_role'); ?>/' + roleId)
+                        .then(response => response.json())
+                        .then(users => {
+                            users.forEach(user => {
+                                var option = document.createElement('option');
+                                option.value = user.id;
+                                option.textContent = user.name + ' (' + user.email + ')';
+                                if (selectUserId && user.id == selectUserId) {
+                                    option.selected = true;
+                                }
+                                userSelect.appendChild(option);
+                            });
+                        });
+                }
+            }
+            
+            document.getElementById('role_id').addEventListener('change', function() {
+                loadUsers(this.value, null);
+            });
+            
+            // Load users on page load
+            var initialRoleId = document.getElementById('role_id').value;
+            if (initialRoleId) {
+                loadUsers(initialRoleId, selectedUserId);
+            }
+            </script>
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">
