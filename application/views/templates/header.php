@@ -36,6 +36,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="<?php echo site_url('cao'); ?>" class="nav-link">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+            <p>CAO Reports</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?php echo site_url('approvals'); ?>" class="nav-link">
             <i class="nav-icon fas fa-check"></i>
             <p>Approval</p>
