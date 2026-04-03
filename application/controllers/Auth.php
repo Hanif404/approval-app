@@ -70,7 +70,7 @@ class Auth extends CI_Controller {
         $this->User_model->update_password($user->id, $new_password);
 
         $this->load->library('email');
-        $this->email->from('noreply@approvalapp.com', 'Approval App');
+        $this->email->from(getenv('MAIL_FROM_EMAIL'), getenv('MAIL_FROM_NAME'));
         $this->email->to($email);
         $this->email->subject('Password Reset');
         $this->email->message('Your new password is: ' . $new_password);
