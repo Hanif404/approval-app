@@ -15,7 +15,7 @@ ob_start();
     </div>
     <div class="card-body">
         <?php echo form_open('forms/edit/' . $form->id); ?>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="title">Title <span class="text-danger">*</span></label>
@@ -32,44 +32,50 @@ ob_start();
                         <?php echo form_error('submission_date', '<div class="invalid-feedback">', '</div>'); ?>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="description">Description</label>
                 <textarea class="form-control" id="description" name="description" rows="3"><?php echo set_value('description', $form->description); ?></textarea>
-            </div>
+            </div> -->
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="project_name">Project Name  <span class="text-danger">*</span></label>
+                        <label for="project_name">Nama Projek  <span class="text-danger">*</span></label>
                         <input type="text" class="form-control <?php echo form_error('project_name') ? 'is-invalid' : ''; ?>" 
                                id="project_name" name="project_name" value="<?php echo set_value('project_name', $form->project_name); ?>" required>
                         <?php echo form_error('project_name', '<div class="invalid-feedback">', '</div>'); ?>
                     </div>
+                    <div class="form-group">
+                        <label for="submission_date">Submission Date <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control <?php echo form_error('submission_date') ? 'is-invalid' : ''; ?>" 
+                               id="submission_date" name="submission_date" value="<?php echo set_value('submission_date', $form->submission_date); ?>" required>
+                        <?php echo form_error('submission_date', '<div class="invalid-feedback">', '</div>'); ?>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="cao_number">CAO Number</label>
+                        <label for="cao_number">Nomor CAO</label>
                         <input type="text" class="form-control" id="cao_number" name="cao_number" value="<?php echo set_value('cao_number', $form->cao_number); ?>">
                     </div>
                 </div>
             </div>
 
             <hr>
-            <h5>Payment Information</h5>
+            <h5>Informasi Pembayaran</h5>
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="payment_receiver_name">Payment Receiver Name</label>
+                        <label for="payment_receiver_name">Nama Penerima</label>
                         <input type="text" class="form-control" id="payment_receiver_name" name="payment_receiver_name" value="<?php echo set_value('payment_receiver_name', $form->payment_receiver_name); ?>">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="bank_account_number">Bank Account Number</label>
-                        <input type="text" class="form-control" id="bank_account_number" name="bank_account_number" value="<?php echo set_value('bank_account_number', $form->bank_account_number); ?>">
+                        <label for="transaction_type">Jenis Transaksi</label>
+                        <input type="text" class="form-control" id="transaction_type" name="transaction_type" value="<?php echo set_value('transaction_type', $form->transaction_type); ?>">
                     </div>
                 </div>
             </div>
@@ -77,14 +83,14 @@ ob_start();
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="bank_name">Bank Name</label>
+                        <label for="bank_name">Nama Bank</label>
                         <input type="text" class="form-control" id="bank_name" name="bank_name" value="<?php echo set_value('bank_name', $form->bank_name); ?>">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="transaction_type">Transaction Type</label>
-                        <input type="text" class="form-control" id="transaction_type" name="transaction_type" value="<?php echo set_value('transaction_type', $form->transaction_type); ?>">
+                        <label for="bank_account_number">Nomor Rekening Bank</label>
+                        <input type="text" class="form-control" id="bank_account_number" name="bank_account_number" value="<?php echo set_value('bank_account_number', $form->bank_account_number); ?>">
                     </div>
                 </div>
             </div>
@@ -115,8 +121,8 @@ ob_start();
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Work Area</th>
+                    <th>Keterangan</th>
+                    <th>Area</th>
                     <th>Quantity</th>
                     <th>Unit Price</th>
                     <th>Total Amount</th>
@@ -154,11 +160,11 @@ ob_start();
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label>Description <span class="text-danger">*</span></label>
+                                                <label>Keterangan <span class="text-danger">*</span></label>
                                                 <textarea class="form-control" name="description" required><?php echo $detail->description; ?></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>Work Area</label>
+                                                <label>Area</label>
                                                 <input type="text" class="form-control" name="work_area" value="<?php echo $detail->work_area; ?>">
                                             </div>
                                             <div class="form-group">
@@ -205,11 +211,11 @@ ob_start();
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Description <span class="text-danger">*</span></label>
+                        <label>Keterangan <span class="text-danger">*</span></label>
                         <textarea class="form-control" name="description" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Work Area</label>
+                        <label>Area</label>
                         <input type="text" class="form-control" name="work_area">
                     </div>
                     <div class="form-group">

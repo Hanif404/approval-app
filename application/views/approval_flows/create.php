@@ -51,23 +51,23 @@ ob_start();
                 <?php endif; ?>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="category">Category</label>
                 <select class="form-control" id="category" name="category" required>
                     <option value="mengetahui" <?php echo set_select('category', 'mengetahui'); ?>>Mengetahui</option>
                     <option value="menyetujui" <?php echo set_select('category', 'menyetujui', true); ?>>Menyetujui</option>
                 </select>
-            </div>
+            </div> -->
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="user_id">Specific User (Optional)</label>
                 <select class="form-control" id="user_id" name="user_id">
                     <option value="">Any user from selected role</option>
                 </select>
                 <small class="form-text text-muted">Select a role first to load users</small>
-            </div>
+            </div> -->
 
-            <script>
+            <!-- <script>
             document.getElementById('role_id').addEventListener('change', function() {
                 var roleId = this.value;
                 var userSelect = document.getElementById('user_id');
@@ -86,7 +86,7 @@ ob_start();
                         });
                 }
             });
-            </script>
+            </script> -->
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">

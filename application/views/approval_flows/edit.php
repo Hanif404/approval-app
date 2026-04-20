@@ -54,23 +54,23 @@ ob_start();
                 <?php endif; ?>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="category">Category</label>
                 <select class="form-control" id="category" name="category" required>
                     <option value="mengetahui" <?php echo set_select('category', 'mengetahui', $flow->category == 'mengetahui'); ?>>Mengetahui</option>
                     <option value="menyetujui" <?php echo set_select('category', 'menyetujui', $flow->category == 'menyetujui'); ?>>Menyetujui</option>
                 </select>
-            </div>
+            </div> -->
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="user_id">Specific User (Optional)</label>
                 <select class="form-control" id="user_id" name="user_id">
                     <option value="">Any user from selected role</option>
                 </select>
                 <small class="form-text text-muted">Select a role first to load users</small>
-            </div>
+            </div> -->
 
-            <script>
+            <!-- <script>
             var selectedUserId = '<?php echo $flow->user_id; ?>';
             
             function loadUsers(roleId, selectUserId) {
@@ -103,7 +103,7 @@ ob_start();
             if (initialRoleId) {
                 loadUsers(initialRoleId, selectedUserId);
             }
-            </script>
+            </script> -->
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">

@@ -16,6 +16,9 @@ ob_start();
                 <i class="fas fa-times"></i> Reject
             </button>
             <?php endif; ?>
+            <a href="<?php echo site_url('forms/generate_pdf/' . $form->id); ?>" class="btn btn-primary btn-sm" target="_blank">
+                <i class="fa fa-file-pdf"></i> PDF Report
+            </a>
             <a href="<?php echo site_url('approvals/logs/' . $form->id.'?page=approvals'); ?>" class="btn btn-primary btn-sm">
                 <i class="fas fa-history"></i> History
             </a>
@@ -28,40 +31,40 @@ ob_start();
         <div class="row">
             <div class="col-md-6">
                 <table class="table table-borderless">
-                    <tr>
+                    <!-- <tr>
                         <th width="40%">Title:</th>
                         <td><?php echo htmlspecialchars($form->title); ?></td>
+                    </tr> -->
+                    <tr>
+                        <th width="40%">Nama Projek:</th>
+                        <td><?php echo htmlspecialchars($form->project_name); ?></td>
                     </tr>
                     <tr>
-                        <th>Submission Date:</th>
-                        <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
-                    </tr>
-                    <tr>
-                        <th>CAO Number:</th>
+                        <th>Nomor CAO:</th>
                         <td><?php echo htmlspecialchars($form->cao_number); ?></td>
                     </tr>
                     <tr>
-                        <th>Project Name:</th>
-                        <td><?php echo htmlspecialchars($form->project_name); ?></td>
+                        <th>Tanggal Pengajuan:</th>
+                        <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
                     </tr>
                 </table>
             </div>
             <div class="col-md-6">
                 <table class="table table-borderless">
                     <tr>
-                        <th width="40%">Payment Receiver:</th>
+                        <th width="40%">Nama Penerima:</th>
                         <td><?php echo htmlspecialchars($form->payment_receiver_name); ?></td>
                     </tr>
                     <tr>
-                        <th>Bank Account:</th>
+                        <th>Nomor Rekening:</th>
                         <td><?php echo htmlspecialchars($form->bank_account_number); ?></td>
                     </tr>
                     <tr>
-                        <th>Bank Name:</th>
+                        <th>Nama Bank:</th>
                         <td><?php echo htmlspecialchars($form->bank_name); ?></td>
                     </tr>
                     <tr>
-                        <th>Transaction Type:</th>
+                        <th>Jenis Transaksi:</th>
                         <td><?php echo nl2br(htmlspecialchars($form->transaction_type)); ?></td>
                     </tr>
                     <tr>
@@ -78,12 +81,12 @@ ob_start();
         <div class="row">
             <div class="col-md-12">
                 <table class="table table-borderless">
-                    <tr>
-                        <th width="20%">Description:</th>
+                    <!-- <tr>
+                        <th>Description:</th>
                         <td><?php echo nl2br(htmlspecialchars($form->description)); ?></td>
-                    </tr>
+                    </tr> -->
                     <tr>
-                        <th>Created By:</th>
+                        <th width="20%">dibuat Oleh:</th>
                         <td><?php echo htmlspecialchars($form->created_by_name); ?> on <?php echo date('Y-m-d H:i', strtotime($form->created_at)); ?></td>
                     </tr>
                     <?php if ($form->updated_at): ?>
@@ -107,8 +110,8 @@ ob_start();
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Work Area</th>
+                    <th>Keterangan</th>
+                    <th>Area</th>
                     <th>Quantity</th>
                     <th>Unit Price</th>
                     <th>Total Amount</th>

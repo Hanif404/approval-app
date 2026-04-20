@@ -14,7 +14,7 @@ ob_start();
             <div class="col-md-12">
                 <form method="GET" action="<?php echo site_url('approvals/index'); ?>" class="form-inline">
                     <div class="form-group mr-2">
-                        <label for="submission_date_from" class="mr-2">Submission Date From:</label>
+                        <label for="submission_date_from" class="mr-2">Tanggal Pengajuan:</label>
                         <input type="date" class="form-control" id="submission_date_from" name="submission_date_from" value="<?php echo isset($submission_date_from) ? htmlspecialchars($submission_date_from) : date("Y-m-01"); ?>">
                     </div>
                     <div class="form-group mr-2">
@@ -41,11 +41,11 @@ ob_start();
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Title</th>
-                        <th>Project Name</th>
-                        <th>Submission Date</th>
+                        <!-- <th>Title</th> -->
+                        <th>Nama Projek</th>
+                        <th>Tanggal Pengajuan</th>
                         <th>Status</th>
-                        <th>Created By</th>
+                        <th>Dibuat Oleh</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -54,7 +54,7 @@ ob_start();
                         <?php foreach ($forms as $form): ?>
                             <tr>
                                 <td><?php echo $form->id; ?></td>
-                                <td><?php echo htmlspecialchars($form->title); ?></td>
+                                <!-- <td><?php echo htmlspecialchars($form->title); ?></td> -->
                                 <td><?php echo htmlspecialchars($form->project_name); ?></td>
                                 <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
                                 <td>

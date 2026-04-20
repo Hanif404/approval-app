@@ -27,13 +27,13 @@ class Forms extends CI_Controller {
 
     public function create() {
         if ($this->input->post()) {
-            $this->form_validation->set_rules('title', 'Title', 'required|max_length[150]');
+            // $this->form_validation->set_rules('title', 'Title', 'required|max_length[150]');
             $this->form_validation->set_rules('submission_date', 'Submission Date', 'required');
             $this->form_validation->set_rules('project_name', 'Project Name', 'required|max_length[150]');
 
             if ($this->form_validation->run()) {
                 $data = array(
-                    'title' => $this->input->post('title'),
+                    'title' => "Form Pengajuan - " . $this->input->post('project_name'),
                     'description' => $this->input->post('description'),
                     'submission_date' => $this->input->post('submission_date'),
                     'cao_number' => $this->input->post('cao_number'),
@@ -65,7 +65,7 @@ class Forms extends CI_Controller {
         }
 
         if ($this->input->post()) {
-            $this->form_validation->set_rules('title', 'Title', 'required|max_length[150]');
+            // $this->form_validation->set_rules('title', 'Title', 'required|max_length[150]');
             $this->form_validation->set_rules('submission_date', 'Submission Date', 'required');
             $this->form_validation->set_rules('project_name', 'Project Name', 'required|max_length[150]');
 

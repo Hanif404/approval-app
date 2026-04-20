@@ -48,7 +48,7 @@ class Approval_flows extends CI_Controller {
                     'role_id' => $this->input->post('role_id'),
                     'step_order' => $this->input->post('step_order'),
                     'user_id' => $this->input->post('user_id') ?: null,
-                    'category' => $this->input->post('category')
+                    'category' => "" //$this->input->post('category')
                 );
 
                 if ($this->Approval_flow_model->create_flow($data)) {
@@ -80,7 +80,7 @@ class Approval_flows extends CI_Controller {
                     'role_id' => $this->input->post('role_id'),
                     'step_order' => $this->input->post('step_order'),
                     'user_id' => $this->input->post('user_id') ?: null,
-                    'category' => $this->input->post('category')
+                    'category' => "" // $this->input->post('category')
                 );
 
                 if ($this->Approval_flow_model->update_flow($id, $update_data)) {

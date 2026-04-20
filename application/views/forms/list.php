@@ -39,11 +39,11 @@ ob_start();
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Title</th>
-                        <th>Project Name</th>
-                        <th>Submission Date</th>
+                        <!-- <th>Title</th> -->
+                        <th>Nama Projek</th>
+                        <th>Tanggal Pengajuan</th>
                         <th>Status</th>
-                        <th>Created By</th>
+                        <th>Dibuat Oleh</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -52,7 +52,7 @@ ob_start();
                         <?php foreach ($forms as $form): ?>
                             <tr>
                                 <td><?php echo $form->id; ?></td>
-                                <td><?php echo htmlspecialchars($form->title); ?></td>
+                                <!-- <td><?php echo htmlspecialchars($form->title); ?></td> -->
                                 <td><?php echo htmlspecialchars($form->project_name); ?></td>
                                 <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
                                 <td>
