@@ -8,6 +8,9 @@ ob_start();
     <div class="card-header">
         <h3 class="card-title">CAO List</h3>
         <div class="card-tools">
+            <a href="<?php echo site_url('cao/export_pdf?date_from=' . $date_from . '&date_to=' . $date_to); ?>" class="btn btn-primary btn-sm">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </a>
             <a href="<?php echo site_url('cao/export_csv?date_from=' . $date_from . '&date_to=' . $date_to); ?>" class="btn btn-success btn-sm">
                 <i class="fas fa-file-csv"></i> Export CSV
             </a>

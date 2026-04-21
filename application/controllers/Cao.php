@@ -8,7 +8,7 @@ class Cao extends CI_Controller {
         if (!$this->session->userdata('user_id')) {
             redirect('login');
         }
-        $this->load->model(array('Cao_model', 'User_model'));
+        $this->load->model(array('Cao_model', 'User_model', 'Signature_model'));
         $this->load->helper(array('form', 'url', 'download'));
         $this->load->library(array('form_validation', 'session'));
         $this->check_admin();
@@ -42,6 +42,17 @@ class Cao extends CI_Controller {
         $data['date_from'] = $date_from;
         $data['date_to'] = $date_to;
         $this->load->view('cao_reports/list', $data);
+    }
+
+    public function export_pdf() {
+        $date_from = $this->input->get('date_from') ?: date('Y-m-01');
+        $date_to   = $this->input->get('date_to')   ?: date('Y-m-t');
+
+        $cao_forms  = $this->Cao_model->get_all_cao($date_from, $date_to);
+        $signatures = $this->Signature_model->get_all();
+
+        $this->load->library('Cao_report_pdf');
+        $this->cao_report_pdf->generate($cao_forms, $signatures, $date_from, $date_to);
     }
 
     public function export_csv() {
