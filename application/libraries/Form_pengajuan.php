@@ -14,7 +14,7 @@ class form_pengajuan extends FPDF {
         $this->Ln(8);
     }
     
-    public function generate($form, $details, $approvals, $total_amount) {
+    public function generate($form, $details, $signatures, $total_amount) {
         $this->AddPage();
         $this->SetFont('Arial','',10);
 
@@ -111,9 +111,9 @@ class form_pengajuan extends FPDF {
         $this->Cell(60,6,$form->created_by_name,0,0,'C');
         $countReview = 1; 
         $wCell = 60;
-        foreach($approvals as $row)
+        foreach($signatures as $row)
         {
-            if($row->category == "mengetahui"){
+            if($row->label == "mengetahui"){
                 if($countReview > 1){
                     $wCell /= 2;
                 }
@@ -121,13 +121,13 @@ class form_pengajuan extends FPDF {
             }
         }
 
-        foreach($approvals as $row)
+        foreach($signatures as $row)
         {
-            if($row->category == "mengetahui"){
-                $this->Cell($wCell,6,$row->user_name,0,0,'C');
+            if($row->label == "mengetahui"){
+                $this->Cell($wCell,6,$row->name,0,0,'C');
             }
-            if($row->category == "menyetujui"){
-                $this->Cell(60,6,$row->user_name,0,1,'C');
+            if($row->label == "menyetujui"){
+                $this->Cell(60,6,$row->name,0,1,'C');
             }
         }
 

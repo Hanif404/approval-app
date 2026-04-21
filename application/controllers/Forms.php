@@ -9,7 +9,7 @@ class Forms extends CI_Controller {
             redirect('login');
         }
 
-        $this->load->model(array('Form_model', 'Form_detail_model', 'Form_file_model', 'Approval_model', 'Approval_flow_model'));
+        $this->load->model(array('Form_model', 'Form_detail_model', 'Form_file_model', 'Approval_model', 'Approval_flow_model', 'Signature_model'));
         $this->load->helper(array('form', 'url', 'file'));
         $this->load->library(array('form_validation', 'session', 'upload', 'form_pengajuan','form_pengajuan_image'));
     }
@@ -307,9 +307,9 @@ class Forms extends CI_Controller {
 
         $details = $this->Form_detail_model->get_details($id);
         $total_amount = $this->Form_detail_model->get_total_amount($id);
-        $approval_flow = $this->Approval_flow_model->get_flows_by_type_user('general');
+        $signatures = $this->Signature_model->get_all();
         
-        $this->form_pengajuan->generate($form, $details, $approval_flow, $total_amount);
+        $this->form_pengajuan->generate($form, $details, $signatures, $total_amount);
     }
 
     public function generate_pdf_with_img($id) {
