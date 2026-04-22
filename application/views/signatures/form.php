@@ -15,12 +15,19 @@
         echo form_open_multipart($action);
         ?>
             <div class="form-group">
+                <label for="label">Category <span class="text-danger">*</span></label>
+                <select class="form-control" id="label" name="label" required>
+                    <option value="mengetahui" <?php echo set_select('label', 'mengetahui', $signature->label == 'mengetahui'); ?>>Mengetahui</option>
+                    <option value="menyetujui" <?php echo set_select('label', 'menyetujui', $signature->label == 'menyetujui'); ?>>Menyetujui</option>
+                </select>
+            </div>
+            <!-- <div class="form-group">
                 <label>Label <span class="text-danger">*</span></label>
                 <input type="text" name="label" class="form-control <?php echo form_error('label') ? 'is-invalid' : ''; ?>"
                        value="<?php echo set_value('label', $signature->label ?? ''); ?>"
                        placeholder="e.g. Yang Mengajukan, Mengetahui, Menyetujui" required>
                 <?php echo form_error('label', '<div class="invalid-feedback">', '</div>'); ?>
-            </div>
+            </div> -->
 
             <div class="form-group">
                 <label>Nama <span class="text-danger">*</span></label>
