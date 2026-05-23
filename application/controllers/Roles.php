@@ -69,6 +69,11 @@ class Roles extends CI_Controller {
             show_404();
         }
 
+        if($data['role']->name == 'admin'){
+            $this->session->set_flashdata('error', 'Unable to update role');
+            redirect('roles');
+        }
+
         if ($this->input->post()) {
             $this->form_validation->set_rules('name', 'Name', 'required|max_length[100]');
             $this->form_validation->set_rules('description', 'Description', 'max_length[255]');
@@ -99,6 +104,11 @@ class Roles extends CI_Controller {
         
         if (!$role) {
             show_404();
+        }
+
+        if($role->name == 'admin'){
+            $this->session->set_flashdata('error', 'Unable to update role');
+            redirect('roles');
         }
 
         if ($this->Role_model->delete_role($id)) {
