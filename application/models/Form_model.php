@@ -8,11 +8,11 @@ class Form_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get_all_forms($user_id = null, $submission_date_from = null, $submission_date_to = null) {
+    public function get_all_forms($user_id = null, $submission_date_from = null, $submission_date_to = null, $filter_staff = true) {
         $this->db->select('f.*, u.name as created_by_name');
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
-        if ($user_id) {
+        if ($user_id && $filter_staff) {
             $this->db->where('f.created_by', $user_id);
         }
         if ($submission_date_from) {

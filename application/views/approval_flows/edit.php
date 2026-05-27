@@ -15,7 +15,7 @@ ob_start();
     </div>
     <div class="card-body">
         <?php echo form_open('approval_flows/edit/' . $flow->id); ?>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="form_type">Form Type</label>
                 <input type="text" class="form-control <?php echo form_error('form_type') ? 'is-invalid' : ''; ?>" 
                        id="form_type" name="form_type" 
@@ -24,7 +24,7 @@ ob_start();
                 <?php if (form_error('form_type')): ?>
                     <div class="invalid-feedback"><?php echo form_error('form_type'); ?></div>
                 <?php endif; ?>
-            </div>
+            </div> -->
 
             <div class="form-group">
                 <label for="role_id">Role</label>

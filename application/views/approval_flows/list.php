@@ -19,7 +19,7 @@ ob_start();
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Form Type</th>
+                        <!-- <th>Form Type</th> -->
                         <th>Role</th>
                         <th>Step Order</th>
                         <th>Created At</th>
@@ -31,7 +31,7 @@ ob_start();
                         <?php foreach ($flows as $flow): ?>
                             <tr>
                                 <td><?php echo $flow->id; ?></td>
-                                <td><span class="badge badge-info"><?php echo htmlspecialchars($flow->form_type); ?></span></td>
+                                <!-- <td><span class="badge badge-info"><?php echo htmlspecialchars($flow->form_type); ?></span></td> -->
                                 <td><?php echo htmlspecialchars($flow->role_name); ?></td>
                                 <td><span class="badge badge-secondary"><?php echo $flow->step_order; ?></span></td>
                                 <td><?php echo $flow->created_at ? date('Y-m-d H:i', strtotime($flow->created_at)) : '-'; ?></td>

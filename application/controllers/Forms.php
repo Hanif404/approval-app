@@ -9,17 +9,37 @@ class Forms extends CI_Controller {
             redirect('login');
         }
 
-        $this->load->model(array('Form_model', 'Form_detail_model', 'Form_file_model', 'Approval_model', 'Approval_flow_model', 'Signature_model'));
+        $this->load->model(array('Form_model', 'User_model', 'Form_detail_model', 'Form_file_model', 'Approval_model', 'Approval_flow_model', 'Signature_model'));
         $this->load->helper(array('form', 'url', 'file'));
         $this->load->library(array('form_validation', 'session', 'upload', 'form_pengajuan','form_pengajuan_image'));
+        $this->is_staff = false;
+    }
+
+    public function get_user_role() {
+        $user_id = $this->session->userdata('user_id');
+        if (!$user_id) {
+            return null;
+        }
+        $roleUser = $this->User_model->get_user_with_roles($user_id);
+        $roleArr = [];
+        if (is_array($roleUser->roles) && count($roleUser->roles) > 0) {
+            foreach ($roleUser->roles as $role) {
+                $roleArr[] = $role->id;
+                if(strtolower($role->name) === 'pengaju'){
+                    $this->is_staff = true;
+                }
+            }
+        }
+        return $roleArr;
     }
 
     public function index() {
+        $this->get_user_role();
         $user_id = $this->session->userdata('user_id');
         $submission_date_from = $this->input->get('submission_date_from') ? $this->input->get('submission_date_from') : date('Y-m-01');
         $submission_date_to = $this->input->get('submission_date_to') ? $this->input->get('submission_date_to') : date('Y-m-t');
         
-        $data['forms'] = $this->Form_model->get_all_forms($user_id, $submission_date_from, $submission_date_to);
+        $data['forms'] = $this->Form_model->get_all_forms($user_id, $submission_date_from, $submission_date_to, $this->is_staff);
         $data['submission_date_from'] = $submission_date_from;
         $data['submission_date_to'] = $submission_date_to;
         $this->load->view('forms/list', $data);
@@ -213,7 +233,7 @@ class Forms extends CI_Controller {
         }
 
         $config['upload_path'] = './uploads/forms/';
-        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['max_size'] = 5120;
         $config['encrypt_name'] = true;
 

@@ -297,7 +297,7 @@ ob_start();
                     <div class="form-group">
                         <label>File <span class="text-danger">*</span></label>
                         <input type="file" class="form-control-file" name="file" required>
-                        <small class="form-text text-muted">Allowed: JPG, JPEG, PNG (Max 5MB)</small>
+                        <small class="form-text text-muted">Allowed: JPG, JPEG, PNG, PDF (Max 5MB)</small>
                     </div>
                 </div>
                 <div class="modal-footer">

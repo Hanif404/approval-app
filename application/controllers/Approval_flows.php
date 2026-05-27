@@ -38,13 +38,13 @@ class Approval_flows extends CI_Controller {
 
     public function create() {
         if ($this->input->post()) {
-            $this->form_validation->set_rules('form_type', 'Form Type', 'required|max_length[50]');
+            // $this->form_validation->set_rules('form_type', 'Form Type', 'required|max_length[50]');
             $this->form_validation->set_rules('role_id', 'Role', 'required|numeric');
             $this->form_validation->set_rules('step_order', 'Step Order', 'required|numeric');
 
             if ($this->form_validation->run()) {
                 $data = array(
-                    'form_type' => $this->input->post('form_type'),
+                    'form_type' => "general", //$this->input->post('form_type'),
                     'role_id' => $this->input->post('role_id'),
                     'step_order' => $this->input->post('step_order'),
                     'user_id' => $this->input->post('user_id') ?: null,
@@ -70,13 +70,13 @@ class Approval_flows extends CI_Controller {
         }
 
         if ($this->input->post()) {
-            $this->form_validation->set_rules('form_type', 'Form Type', 'required|max_length[50]');
+            // $this->form_validation->set_rules('form_type', 'Form Type', 'required|max_length[50]');
             $this->form_validation->set_rules('role_id', 'Role', 'required|numeric');
             $this->form_validation->set_rules('step_order', 'Step Order', 'required|numeric');
 
             if ($this->form_validation->run()) {
                 $update_data = array(
-                    'form_type' => $this->input->post('form_type'),
+                    'form_type' => "general", //$this->input->post('form_type'),
                     'role_id' => $this->input->post('role_id'),
                     'step_order' => $this->input->post('step_order'),
                     'user_id' => $this->input->post('user_id') ?: null,
