@@ -65,10 +65,13 @@ ob_start();
                                     <a href="<?php echo site_url('forms/view/' . $form->id); ?>" class="btn btn-info btn-sm">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <?php if ($form->status == 'draft'): ?>
+                                    <?php if ($form->status == 'draft' || $form->status == 'rejected'): ?>
                                     <a href="<?php echo site_url('forms/edit/' . $form->id); ?>" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($form->status == 'draft'): ?>
                                     <a href="<?php echo site_url('forms/delete/' . $form->id); ?>" 
                                        class="btn btn-danger btn-sm" 
                                        onclick="return confirm('Are you sure?')">

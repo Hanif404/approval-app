@@ -8,7 +8,7 @@ ob_start();
     <div class="card-header">
         <h3 class="card-title">Form Details</h3>
         <div class="card-tools">
-            <?php if ($form->status == 'draft'): ?>
+            <?php if ($form->status == 'draft' || $form->status == 'rejected'): ?>
             <a href="<?php echo site_url('forms/submit/' . $form->id); ?>" class="btn btn-primary btn-sm">
                 <i class="fas fa-paper-plane"></i> Submit
             </a>

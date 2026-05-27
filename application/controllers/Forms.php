@@ -293,8 +293,8 @@ class Forms extends CI_Controller {
             show_404();
         }
 
-        if ($form->status !== 'draft') {
-            $this->session->set_flashdata('error', 'Form can only be submitted from draft status');
+        if ($form->status !== 'draft' && $form->status !== 'rejected') {
+            $this->session->set_flashdata('error', 'Form can only be submitted from draft or rejected status');
             redirect('forms');
         }
 
