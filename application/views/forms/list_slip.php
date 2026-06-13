@@ -1,0 +1,79 @@
+<?php
+$title = 'Forms List';
+$page_title = 'Upload Slip Forms';
+ob_start();
+?>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Forms List</h3>
+        <div class="card-tools"></div>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <form method="GET" action="<?php echo site_url('forms/list_slip'); ?>" class="form-inline">
+                    <div class="form-group mr-2">
+                        <label for="submission_date_from" class="mr-2">Submission Date From:</label>
+                        <input type="date" class="form-control" id="submission_date_from" name="submission_date_from" value="<?php echo isset($submission_date_from) ? htmlspecialchars($submission_date_from) : date("Y-m-01"); ?>">
+                    </div>
+                    <div class="form-group mr-2">
+                        <label for="submission_date_to" class="mr-2">To:</label>
+                        <input type="date" class="form-control" id="submission_date_to" name="submission_date_to" value="<?php echo isset($submission_date_to) ? htmlspecialchars($submission_date_to) : date("Y-m-t"); ?>">
+                    </div>
+                    <button type="submit" class="btn btn-info">
+                        <i class="fas fa-search"></i> Filter
+                    </button>
+                    <a href="<?php echo site_url('forms/list_slip'); ?>" class="btn btn-secondary ml-2">
+                        <i class="fas fa-redo"></i> Reset
+                    </a>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama Projek</th>
+                        <th>Tanggal Pengajuan</th>
+                        <th>Status</th>
+                        <th>Dibuat Oleh</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($forms)): ?>
+                        <?php foreach ($forms as $form): ?>
+                            <tr>
+                                <td><?php echo $form->id; ?></td>
+                                <td><?php echo htmlspecialchars($form->project_name); ?></td>
+                                <td><?php echo date('Y-m-d', strtotime($form->submission_date)); ?></td>
+                                <td>
+                                    <span class="badge badge-<?php echo $form->status == 'approved' ? 'success' : ($form->status == 'rejected' ? 'danger' : ($form->status == 'submitted' ? 'info' : 'warning')); ?>">
+                                        <?php echo ucfirst($form->status); ?>
+                                    </span>
+                                </td>
+                                <td><?php echo htmlspecialchars($form->created_by_name); ?></td>
+                                <td>
+                                    <a href="<?php echo site_url('forms/view_slip/' . $form->id); ?>" class="btn btn-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="7" class="text-center">No forms found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<?php
+$content = ob_get_clean();
+$this->load->view('templates/layout', compact('title', 'page_title', 'content'));
+?>

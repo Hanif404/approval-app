@@ -13,9 +13,11 @@ class Forms extends CI_Controller {
         $this->load->helper(array('form', 'url', 'file'));
         $this->load->library(array('form_validation', 'session', 'upload', 'form_pengajuan','form_pengajuan_image'));
         $this->is_staff = false;
+        $this->is_slip = false;
     }
 
     public function get_user_role() {
+        $slipAllowedRoles = ['kasir', 'verifikasi', 'admin'];
         $user_id = $this->session->userdata('user_id');
         if (!$user_id) {
             return null;
@@ -28,6 +30,7 @@ class Forms extends CI_Controller {
                 if(strtolower($role->name) === 'pengaju'){
                     $this->is_staff = true;
                 }
+                $this->is_slip = in_array(strtolower($role->name ?? ''), $slipAllowedRoles);
             }
         }
         return $roleArr;
@@ -242,6 +245,7 @@ class Forms extends CI_Controller {
         }
 
         $this->upload->initialize($config);
+        $isSlip = (int)$this->input->post('is_slip');
 
         if (!$this->upload->do_upload('file')) {
             $this->session->set_flashdata('error', $this->upload->display_errors());
@@ -251,7 +255,8 @@ class Forms extends CI_Controller {
                 'form_id' => $form_id,
                 'file_name' => $upload_data['orig_name'],
                 'file_path' => $config['upload_path'] . $upload_data['file_name'],
-                'uploaded_by' => $this->session->userdata('user_id')
+                'uploaded_by' => $this->session->userdata('user_id'),
+                'is_slip' => $isSlip
             );
 
             if ($this->Form_file_model->upload_file($file_data)) {
@@ -260,7 +265,11 @@ class Forms extends CI_Controller {
                 $this->session->set_flashdata('error', 'Failed to save file record');
             }
         }
-        redirect('forms/edit/' . $form_id);
+        if($isSlip == 1){
+            redirect('forms/view_slip/' . $form_id);
+        }else{
+            redirect('forms/edit/' . $form_id);
+        }
     }
 
     public function delete_file($file_id, $form_id) {
@@ -344,5 +353,54 @@ class Forms extends CI_Controller {
         $detail_images = $this->Form_file_model->get_files($id);
         
         $this->form_pengajuan_image->generate($form, $details, $detail_images, $approval_flow, $total_amount);
+    }
+
+    public function list_slip(){
+        $this->get_user_role();
+        if(!$this->is_slip){
+            $this->session->set_flashdata('error', 'Access denied. Kasir or Verifikasi role required.');
+            redirect('');
+        }
+
+        $submission_date_from = $this->input->get('submission_date_from') ? $this->input->get('submission_date_from') : date('Y-m-01');
+        $submission_date_to = $this->input->get('submission_date_to') ? $this->input->get('submission_date_to') : date('Y-m-t');
+
+        $data['forms'] = $this->Form_model->get_all_forms(null, $submission_date_from, $submission_date_to, false, true);
+        $data['submission_date_from'] = $submission_date_from;
+        $data['submission_date_to'] = $submission_date_to;
+        $this->load->view('forms/list_slip', $data);
+    }
+
+    public function view_slip($id) {
+        $this->get_user_role();
+        if(!$this->is_slip){
+            $this->session->set_flashdata('error', 'Access denied. Kasir or Verifikasi role required.');
+            redirect('');
+        }
+
+        $data['form'] = $this->Form_model->get_form($id);
+        if (!$data['form']) {
+            show_404();
+        }
+
+        $data['details'] = $this->Form_detail_model->get_details($id);
+        $data['files'] = $this->Form_file_model->get_files($id);
+        $data['slipFiles'] = $this->Form_file_model->get_files($id, true);
+        $data['total_amount'] = $this->Form_detail_model->get_total_amount($id);
+        $this->load->view('forms/view_slip', $data);
+    }
+
+    public function delete_slip_file($file_id, $form_id) {
+        $file = $this->Form_file_model->get_file($file_id);
+        if (!$file) {
+            show_404();
+        }
+
+        if ($this->Form_file_model->delete_file($file_id)) {
+            $this->session->set_flashdata('success', 'File deleted successfully');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete file');
+        }
+        redirect('forms/view_slip/' . $form_id);
     }
 }

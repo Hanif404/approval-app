@@ -8,11 +8,12 @@ class Form_file_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get_files($form_id) {
+    public function get_files($form_id, $isSlip = false) {
         $this->db->select('ff.*, u.name as uploaded_by_name');
         $this->db->from('form_files ff');
         $this->db->join('users u', 'ff.uploaded_by = u.id', 'left');
         $this->db->where('ff.form_id', $form_id);
+        $this->db->where('ff.is_slip', $isSlip ? '1' : '0');
         $this->db->order_by('ff.created_at', 'DESC');
         return $this->db->get()->result();
     }

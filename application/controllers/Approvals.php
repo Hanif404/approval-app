@@ -11,9 +11,11 @@ class Approvals extends CI_Controller {
             'Form_file_model', 'Approval_model','Approval_flow_model'));
         $this->load->helper(array('form', 'url'));
         $this->load->library(array('form_validation', 'session'));
+        $this->is_staff = false;
     }
 
     public function get_user_role() {
+        $allowedRoles = ['pengaju'];
         $user_id = $this->session->userdata('user_id');
         if (!$user_id) {
             return null;
@@ -23,6 +25,7 @@ class Approvals extends CI_Controller {
         if (is_array($roleUser->roles) && count($roleUser->roles) > 0) {
             foreach ($roleUser->roles as $role) {
                 $roleArr[] = $role->id;
+                $this->is_staff = in_array(strtolower($role->name ?? ''), $allowedRoles);
             }
         }
         return $roleArr;
@@ -30,6 +33,11 @@ class Approvals extends CI_Controller {
 
     public function index() {
         $role = $this->get_user_role();
+        if($this->is_staff){
+            $this->session->set_flashdata('error', 'Access denied. Verifikasi role required.');
+            redirect('');
+        }
+
         $submission_date_from = $this->input->get('submission_date_from') ? $this->input->get('submission_date_from') : date('Y-m-01');
         $submission_date_to = $this->input->get('submission_date_to') ? $this->input->get('submission_date_to') : date('Y-m-t');
         $status = $this->input->get('status') ? $this->input->get('status') : 'pending';
