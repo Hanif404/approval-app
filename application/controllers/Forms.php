@@ -128,6 +128,7 @@ class Forms extends CI_Controller {
 
         $data['details'] = $this->Form_detail_model->get_details($id);
         $data['files'] = $this->Form_file_model->get_files($id);
+        $data['slipFiles'] = $this->Form_file_model->get_files($id, true);
         $data['total_amount'] = $this->Form_detail_model->get_total_amount($id);
         $this->load->view('forms/view', $data);
     }

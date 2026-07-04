@@ -181,6 +181,46 @@ ob_start();
     </div>
 </div>
 
+<!-- File slip -->
+<div class="card mt-3">
+    <div class="card-header">
+        <h3 class="card-title">Slip Files</h3>
+        <div class="card-tools"></div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Uploaded By</th>
+                    <th>Upload Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($slipFiles)): ?>
+                    <?php foreach ($slipFiles as $file): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($file->file_name); ?></td>
+                            <td><?php echo htmlspecialchars($file->uploaded_by_name); ?></td>
+                            <td><?php echo date('Y-m-d H:i', strtotime($file->created_at)); ?></td>
+                            <td>
+                                <a href="<?php echo site_url('forms/download_file/' . $file->id); ?>" class="btn btn-info btn-sm">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4" class="text-center">No files uploaded</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <!-- Rejection Modal -->
 <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

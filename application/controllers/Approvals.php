@@ -43,10 +43,10 @@ class Approvals extends CI_Controller {
         $status = $this->input->get('status') ? $this->input->get('status') : 'pending';
         
         //check approval by user
-        $user_id = $this->session->userdata('user_id');
-        $spesific = $this->Approval_model->check_approval_spesific($user_id);
+        // $user_id = $this->session->userdata('user_id');
+        // $spesific = $this->Approval_model->check_approval_spesific($user_id);
 
-        $data['forms'] = $this->Form_model->get_forms_for_approval_flow($role, $submission_date_from, $submission_date_to, $status, $spesific, $user_id);
+        $data['forms'] = $this->Form_model->get_forms_for_approval_flow($role, $submission_date_from, $submission_date_to, $status);
         $data['submission_date_from'] = $submission_date_from;
         $data['submission_date_to'] = $submission_date_to;
         $data['status'] = $status;
@@ -62,6 +62,7 @@ class Approvals extends CI_Controller {
 
         $data['details'] = $this->Form_detail_model->get_details($id);
         $data['files'] = $this->Form_file_model->get_files($id);
+        $data['slipFiles'] = $this->Form_file_model->get_files($id, true);
         $data['total_amount'] = $this->Form_detail_model->get_total_amount($id);
         $this->load->view('approvals/view', $data);
     }

@@ -22,7 +22,7 @@ class Cao extends CI_Controller {
         $user_roles = $this->User_model->get_user_roles($this->session->userdata('user_id'));
         $is_admin = false;
         foreach ($user_roles as $role) {
-            if (strtolower($role->name) === 'admin') {
+            if (strtolower($role->name) != "pengaju") {
                 $is_admin = true;
                 break;
             }
