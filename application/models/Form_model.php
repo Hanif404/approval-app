@@ -117,6 +117,8 @@ class Form_model extends CI_Model {
         $this->db->join('approvals a', 'f.id = a.form_id', 'left');
         $this->db->where_in('a.role_id', $role_ids);
         $this->db->where('f.id', $id);
+        $this->db->order_by('a.created_at', 'desc');
+        $this->db->limit(1);
         return $this->db->get()->row();
     }
 }
