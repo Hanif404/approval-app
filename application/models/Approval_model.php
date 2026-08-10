@@ -55,6 +55,15 @@ class Approval_model extends CI_Model {
         return $this->db->delete('approvals', ['id' => $id]);
     }
 
+    public function get_latest_cycle($form_id) {
+        $row = $this->db
+            ->select_max('cycle')
+            ->where('form_id', $form_id)
+            ->get('approvals')
+            ->row();
+        return ($row && $row->cycle !== null) ? (int) $row->cycle : 0;
+    }
+
     public function check_approval_spesific($user_id, $id = NULL){
         $filter = ['user_id' => $user_id, 'status' => 'pending'];
         if ($id != NULL){

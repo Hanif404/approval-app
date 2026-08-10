@@ -308,6 +308,10 @@ class Forms extends CI_Controller {
             redirect('forms');
         }
 
+        // Hitung cycle: jika form sebelumnya rejected, increment cycle
+        $currentCycle = $this->Approval_model->get_latest_cycle($id);
+        $newCycle = ($form->status === 'rejected') ? $currentCycle + 1 : $currentCycle;
+
         $this->Form_model->update_form($id, array(
             'status' => 'submitted'
         ));
@@ -320,7 +324,8 @@ class Forms extends CI_Controller {
                 'form_id' => $id,
                 'role_id' => $firstFlow->role_id,
                 'user_id' => $firstFlow->user_id,
-                'status' => 'pending'
+                'status' => 'pending',
+                'cycle'   => $newCycle
             );
             $this->Approval_model->create_approval($approvalData);
         }

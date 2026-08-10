@@ -86,6 +86,7 @@ class Approvals extends CI_Controller {
         
         //create next approval flow
         $current_step = $this->check_user_role_step_order();
+        $currentCycle = $this->Approval_model->get_latest_cycle($id);
         $approval_flow = $this->Approval_flow_model->get_flows_by_type('general');
         if (count($approval_flow) > 0) {
             $isNext = false;
@@ -97,7 +98,8 @@ class Approvals extends CI_Controller {
                         'form_id' => $id,
                         'role_id' => $flow->role_id,
                         'user_id' => $flow->user_id,
-                        'status' => 'pending'
+                        'status' => 'pending',
+                        'cycle' => $currentCycle
                     );
                     $this->Approval_model->create_approval($approvalData);
                     break;

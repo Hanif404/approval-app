@@ -57,14 +57,38 @@ class Form_model extends CI_Model {
     }
 
     public function get_forms_for_approval_flow($role_ids, $submission_date_from = null, $submission_date_to = null, $status = null) {
-        $this->db->select('f.*, u.name as created_by_name, a.status as approval_status');
+        // Subquery: ambil cycle tertinggi per form_id dari approvals yang role-nya sesuai
+        $role_ids_escaped = implode(',', array_map(function($r) { return (int)$r; }, $role_ids));
+
+        // approval_status: status dari cycle tertinggi yang non-pending,
+        // jika tidak ada (semua masih pending), fallback ke 'rejected'
+        $status_subquery = "(
+            SELECT COALESCE(
+                (SELECT a2.status
+                 FROM approvals a2
+                 WHERE a2.form_id = f.id
+                   AND a2.role_id IN ($role_ids_escaped)
+                   AND a2.cycle = mc.cycle_number
+                 ORDER BY a2.cycle DESC, a2.created_at DESC
+                 LIMIT 1),
+                'rejected'
+            )
+        )";
+
+        $this->db->select("f.*, u.name as created_by_name, $status_subquery AS approval_status", false);
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
-        $this->db->join('approvals a', 'f.id = a.form_id', 'left');
-        // $this->db->where('a.status', 'pending');
-        $this->db->where_in('a.role_id', $role_ids);
+        $this->db->join("(SELECT form_id, MAX(cycle) as cycle_number FROM approvals GROUP BY form_id) mc", 'mc.form_id = f.id', 'left');
+
+        // Hanya tampilkan form yang memang punya approval untuk role ini
+        $this->db->where("EXISTS (
+            SELECT 1 FROM approvals ax
+            WHERE ax.form_id = f.id
+              AND ax.role_id IN ($role_ids_escaped)
+        )", null, false);
+
         if ($status != null && $status != 'all') {
-            $this->db->where('a.status', $status);
+            $this->db->having('approval_status', $status);
         }
         if ($submission_date_from) {
             $this->db->where('f.submission_date >=', $submission_date_from . ' 00:00:00');
@@ -111,14 +135,28 @@ class Form_model extends CI_Model {
     // }
 
     public function get_form_approval_flow($id, $role_ids) {
-        $this->db->select('f.*, u.name as created_by_name, a.status as approval_status');
+        $role_ids_escaped = implode(',', array_map(function($r) { return (int)$r; }, $role_ids));
+
+        // approval_status: status dari cycle tertinggi yang non-pending,
+        // jika tidak ada (semua masih pending), fallback ke 'rejected'
+        $status_subquery = "(
+            SELECT COALESCE(
+                (SELECT a2.status
+                 FROM approvals a2
+                 WHERE a2.form_id = f.id
+                   AND a2.role_id IN ($role_ids_escaped)
+                   AND a2.cycle = mc.cycle_number
+                 ORDER BY a2.cycle DESC, a2.created_at DESC
+                 LIMIT 1),
+                'rejected'
+            )
+        )";
+
+        $this->db->select("f.*, u.name as created_by_name, $status_subquery AS approval_status", false);
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
-        $this->db->join('approvals a', 'f.id = a.form_id', 'left');
-        $this->db->where_in('a.role_id', $role_ids);
+        $this->db->join("(SELECT form_id, MAX(cycle) as cycle_number FROM approvals GROUP BY form_id) mc", 'mc.form_id = f.id', 'left');
         $this->db->where('f.id', $id);
-        $this->db->order_by('a.created_at', 'desc');
-        $this->db->limit(1);
         return $this->db->get()->row();
     }
 }
