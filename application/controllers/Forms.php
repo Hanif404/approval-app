@@ -297,6 +297,30 @@ class Forms extends CI_Controller {
         force_download($file->file_path, null);
     }
 
+    public function view_file($file_id) {
+        $file = $this->Form_file_model->get_file($file_id);
+        if (!$file || !file_exists($file->file_path)) {
+            show_404();
+        }
+
+        $mime_types = [
+            'pdf'  => 'application/pdf',
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png'  => 'image/png',
+            'gif'  => 'image/gif',
+        ];
+
+        $ext = strtolower(pathinfo($file->file_path, PATHINFO_EXTENSION));
+        $mime = isset($mime_types[$ext]) ? $mime_types[$ext] : 'application/octet-stream';
+
+        header('Content-Type: ' . $mime);
+        header('Content-Disposition: inline; filename="' . $file->file_name . '"');
+        header('Content-Length: ' . filesize($file->file_path));
+        readfile($file->file_path);
+        exit;
+    }
+
     public function submit($id) {
         $form = $this->Form_model->get_form($id);
         if (!$form) {

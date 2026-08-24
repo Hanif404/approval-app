@@ -146,6 +146,9 @@ ob_start();
                             <td><?php echo htmlspecialchars($file->uploaded_by_name); ?></td>
                             <td><?php echo date('Y-m-d H:i', strtotime($file->created_at)); ?></td>
                             <td>
+                                <a href="<?php echo site_url('forms/view_file/' . $file->id); ?>" class="btn btn-secondary btn-sm" target="_blank">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
                                 <a href="<?php echo site_url('forms/download_file/' . $file->id); ?>" class="btn btn-info btn-sm">
                                     <i class="fas fa-download"></i> Download
                                 </a>
@@ -186,6 +189,9 @@ ob_start();
                             <td><?php echo htmlspecialchars($file->uploaded_by_name); ?></td>
                             <td><?php echo date('Y-m-d H:i', strtotime($file->created_at)); ?></td>
                             <td>
+                                <a href="<?php echo site_url('forms/view_file/' . $file->id); ?>" class="btn btn-secondary btn-sm" target="_blank">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                                 <a href="<?php echo site_url('forms/download_file/' . $file->id); ?>" class="btn btn-info btn-sm">
                                     <i class="fas fa-download"></i>
                                 </a>

@@ -38,7 +38,7 @@ ob_start();
                         <th>Nama Projek</th>
                         <th>Tanggal Pengajuan</th>
                         <th>Status</th>
-                        <th>Dibuat Oleh</th>
+                        <th>Penerima</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -54,7 +54,7 @@ ob_start();
                                         <?php echo ucfirst($form->status); ?>
                                     </span>
                                 </td>
-                                <td><?php echo htmlspecialchars($form->created_by_name); ?></td>
+                                <td><?php echo htmlspecialchars($form->payment_receiver_name); ?></td>
                                 <td>
                                     <a href="<?php echo site_url('forms/view_slip/' . $form->id); ?>" class="btn btn-info btn-sm">
                                         <i class="fas fa-eye"></i>

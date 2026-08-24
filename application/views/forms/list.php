@@ -43,7 +43,8 @@ ob_start();
                         <th>Nama Projek</th>
                         <th>Tanggal Pengajuan</th>
                         <th>Status</th>
-                        <th>Dibuat Oleh</th>
+                        <th>Penerima</th>
+                        <th>Total Amount</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -60,7 +61,8 @@ ob_start();
                                         <?php echo ucfirst($form->status); ?>
                                     </span>
                                 </td>
-                                <td><?php echo htmlspecialchars($form->created_by_name); ?></td>
+                                <td><?php echo htmlspecialchars($form->payment_receiver_name); ?></td>
+                                <td><?php echo number_format($form->total_amount); ?></td>
                                 <td>
                                     <a href="<?php echo site_url('forms/view/' . $form->id); ?>" class="btn btn-info btn-sm">
                                         <i class="fas fa-eye"></i>
@@ -83,7 +85,7 @@ ob_start();
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="7" class="text-center">No forms found</td>
+                            <td colspan="8" class="text-center">No forms found</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>

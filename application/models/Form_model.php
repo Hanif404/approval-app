@@ -9,7 +9,8 @@ class Form_model extends CI_Model {
     }
 
     public function get_all_forms($user_id = null, $submission_date_from = null, $submission_date_to = null, $filter_staff = true, $filter_slip = false) {
-        $this->db->select('f.*, u.name as created_by_name');
+        $this->db->select('f.*, u.name as created_by_name,
+            (SELECT COALESCE(SUM(fd.total_amount), 0) FROM form_details fd WHERE fd.form_id = f.id) AS total_amount');
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
         if ($user_id && $filter_staff) {
@@ -75,7 +76,8 @@ class Form_model extends CI_Model {
             )
         )";
 
-        $this->db->select("f.*, u.name as created_by_name, $status_subquery AS approval_status", false);
+        $this->db->select("f.*, u.name as created_by_name, $status_subquery AS approval_status,
+            (SELECT COALESCE(SUM(fd.total_amount), 0) FROM form_details fd WHERE fd.form_id = f.id) AS total_amount", false);
         $this->db->from('forms f');
         $this->db->join('users u', 'f.created_by = u.id', 'left');
         $this->db->join("(SELECT form_id, MAX(cycle) as cycle_number FROM approvals GROUP BY form_id) mc", 'mc.form_id = f.id', 'left');
