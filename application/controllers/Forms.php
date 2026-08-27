@@ -36,6 +36,22 @@ class Forms extends CI_Controller {
         return $roleArr;
     }
 
+    public function is_admin() {
+        $user_id = $this->session->userdata('user_id');
+        if (!$user_id) {
+            return false;
+        }
+        $roleUser = $this->User_model->get_user_with_roles($user_id);
+        if (is_array($roleUser->roles) && count($roleUser->roles) > 0) {
+            foreach ($roleUser->roles as $role) {
+                if (strtolower($role->name) === 'admin') {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public function index() {
         $this->get_user_role();
         $user_id = $this->session->userdata('user_id');
@@ -139,10 +155,16 @@ class Forms extends CI_Controller {
             show_404();
         }
 
+        // Hanya admin yang boleh menghapus
+        if (!$this->is_admin() && $form->status == 'rejected') {
+            $this->session->set_flashdata('error', 'Akses ditolak. Hanya admin yang dapat menghapus form.');
+            redirect('forms/view/' . $id);
+        }
+
         if ($this->Form_model->delete_form($id)) {
-            $this->session->set_flashdata('success', 'Form deleted successfully');
+            $this->session->set_flashdata('success', 'Form berhasil dihapus.');
         } else {
-            $this->session->set_flashdata('error', 'Failed to delete form');
+            $this->session->set_flashdata('error', 'Gagal menghapus form.');
         }
         redirect('forms');
     }

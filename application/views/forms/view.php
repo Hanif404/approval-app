@@ -15,6 +15,9 @@ ob_start();
             <a href="<?php echo site_url('forms/edit/' . $form->id); ?>" class="btn btn-warning btn-sm">
                 <i class="fas fa-edit"></i> Edit
             </a>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalHapusForm">
+                <i class="fas fa-trash-alt"></i> Hapus
+            </button>
             <?php endif; ?>
             <?php if ($form->status != 'draft'): ?>
                 <a href="<?php echo site_url('forms/generate_pdf/' . $form->id); ?>" class="btn btn-primary btn-sm" target="_blank">
@@ -228,6 +231,32 @@ ob_start();
                 <?php endif; ?>
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus -->
+<div class="modal fade" id="modalHapusForm" tabindex="-1" role="dialog" aria-labelledby="modalHapusFormLabel" aria-modal="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="modalHapusFormLabel">
+                    <i class="fas fa-exclamation-triangle"></i> Konfirmasi Hapus Permanen
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Tutup">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Anda yakin ingin <strong>menghapus permanen</strong> form ini?</p>
+                <p class="text-muted mb-0"><small>Tindakan ini tidak dapat dibatalkan. Semua data terkait form ini akan ikut terhapus.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <a href="<?php echo site_url('forms/delete/' . $form->id); ?>" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Ya, Hapus Sekarang
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
