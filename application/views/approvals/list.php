@@ -66,7 +66,14 @@ ob_start();
                                 <td><?php echo htmlspecialchars($form->payment_receiver_name); ?></td>
                                 <td><?php echo number_format($form->total_amount); ?></td>
                                 <td>
-                                    <a href="<?php echo site_url('approvals/view/' . $form->id); ?>" class="btn btn-info btn-sm">
+                                    <?php 
+                                        $filter_qs = http_build_query([
+                                            'submission_date_from' => $submission_date_from,
+                                            'submission_date_to'   => $submission_date_to,
+                                            'status'               => $status,
+                                        ]);
+                                    ?>
+                                    <a href="<?php echo site_url('approvals/view/' . $form->id) . '?' . $filter_qs; ?>" class="btn btn-info btn-sm">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>

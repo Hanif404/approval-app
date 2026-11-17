@@ -64,6 +64,12 @@ class Approvals extends CI_Controller {
         $data['files'] = $this->Form_file_model->get_files($id);
         $data['slipFiles'] = $this->Form_file_model->get_files($id, true);
         $data['total_amount'] = $this->Form_detail_model->get_total_amount($id);
+
+        // Preserve filter state so Back button and post-action redirects return to the same filtered list
+        $data['filter_submission_date_from'] = $this->input->get('submission_date_from') ?: date('Y-m-01');
+        $data['filter_submission_date_to']   = $this->input->get('submission_date_to')   ?: date('Y-m-t');
+        $data['filter_status']               = $this->input->get('status')               ?: 'pending';
+
         $this->load->view('approvals/view', $data);
     }
 
@@ -112,7 +118,12 @@ class Approvals extends CI_Controller {
             }
         }
         $this->session->set_flashdata('success', 'Form approved successfully.');
-        redirect('approvals/view/' . $id);
+        $filter_qs = http_build_query([
+            'submission_date_from' => $this->input->post('filter_submission_date_from') ?: date('Y-m-01'),
+            'submission_date_to'   => $this->input->post('filter_submission_date_to')   ?: date('Y-m-t'),
+            'status'               => $this->input->post('filter_status')               ?: 'pending',
+        ]);
+        redirect('approvals/view/' . $id . '?' . $filter_qs);
     }
 
     public function reject($id) {
@@ -140,7 +151,12 @@ class Approvals extends CI_Controller {
         $this->Form_model->update_status($id, 'rejected');
         
         $this->session->set_flashdata('success', 'Form rejected successfully.');
-        redirect('approvals/view/' . $id);
+        $filter_qs = http_build_query([
+            'submission_date_from' => $this->input->post('filter_submission_date_from') ?: date('Y-m-01'),
+            'submission_date_to'   => $this->input->post('filter_submission_date_to')   ?: date('Y-m-t'),
+            'status'               => $this->input->post('filter_status')               ?: 'pending',
+        ]);
+        redirect('approvals/view/' . $id . '?' . $filter_qs);
     }
 
     public function check_user_role_step_order() {

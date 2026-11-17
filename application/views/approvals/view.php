@@ -8,10 +8,22 @@ ob_start();
     <div class="card-header">
         <h3 class="card-title">Form Details</h3>
         <div class="card-tools">
+            <?php 
+                $filter_qs = http_build_query([
+                    'submission_date_from' => $filter_submission_date_from,
+                    'submission_date_to'   => $filter_submission_date_to,
+                    'status'               => $filter_status,
+                ]);
+            ?>
             <?php if($form->approval_status == 'pending'): ?>
-            <a href="<?php echo site_url('approvals/approve/' . $form->id); ?>" class="btn btn-success btn-sm">
-                <i class="fas fa-check"></i> Approve
-            </a>
+            <form method="post" action="<?php echo site_url('approvals/approve/' . $form->id); ?>" style="display:inline;">
+                <input type="hidden" name="filter_submission_date_from" value="<?php echo htmlspecialchars($filter_submission_date_from); ?>">
+                <input type="hidden" name="filter_submission_date_to"   value="<?php echo htmlspecialchars($filter_submission_date_to); ?>">
+                <input type="hidden" name="filter_status"               value="<?php echo htmlspecialchars($filter_status); ?>">
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="fas fa-check"></i> Approve
+                </button>
+            </form>
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectModal">
                 <i class="fas fa-times"></i> Reject
             </button>
@@ -22,7 +34,7 @@ ob_start();
             <a href="<?php echo site_url('approvals/logs/' . $form->id.'?page=approvals'); ?>" class="btn btn-primary btn-sm">
                 <i class="fas fa-history"></i> History
             </a>
-            <a href="<?php echo site_url('approvals'); ?>" class="btn btn-secondary btn-sm">
+            <a href="<?php echo site_url('approvals') . '?' . $filter_qs; ?>" class="btn btn-secondary btn-sm">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
         </div>
@@ -243,6 +255,9 @@ ob_start();
                         <label for="rejection_reason">Rejection Reason <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="4" placeholder="Please provide a reason for rejection..." required></textarea>
                     </div>
+                    <input type="hidden" name="filter_submission_date_from" value="<?php echo htmlspecialchars($filter_submission_date_from); ?>">
+                    <input type="hidden" name="filter_submission_date_to"   value="<?php echo htmlspecialchars($filter_submission_date_to); ?>">
+                    <input type="hidden" name="filter_status"               value="<?php echo htmlspecialchars($filter_status); ?>">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
