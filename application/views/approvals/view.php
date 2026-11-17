@@ -31,7 +31,7 @@ ob_start();
             <a href="<?php echo site_url('forms/generate_pdf/' . $form->id); ?>" class="btn btn-primary btn-sm" target="_blank">
                 <i class="fa fa-file-pdf"></i> PDF Report
             </a>
-            <a href="<?php echo site_url('approvals/logs/' . $form->id.'?page=approvals'); ?>" class="btn btn-primary btn-sm">
+            <a href="<?php echo site_url('approvals/logs/' . $form->id . '?page=approvals&' . $filter_qs); ?>" class="btn btn-primary btn-sm">
                 <i class="fas fa-history"></i> History
             </a>
             <a href="<?php echo site_url('approvals') . '?' . $filter_qs; ?>" class="btn btn-secondary btn-sm">

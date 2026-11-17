@@ -8,7 +8,14 @@ ob_start();
     <div class="card-header">
         <h3 class="card-title">Approval Logs</h3>
         <div class="card-tools">
-            <a href="<?php echo site_url($page.'/view/'.$id); ?>" class="btn btn-secondary btn-sm">
+            <?php
+                $filter_qs = http_build_query([
+                    'submission_date_from' => $filter_submission_date_from,
+                    'submission_date_to'   => $filter_submission_date_to,
+                    'status'               => $filter_status,
+                ]);
+            ?>
+            <a href="<?php echo site_url($page.'/view/'.$id) . '?' . $filter_qs; ?>" class="btn btn-secondary btn-sm">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
         </div>

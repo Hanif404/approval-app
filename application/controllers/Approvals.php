@@ -179,6 +179,9 @@ class Approvals extends CI_Controller {
         $data['id'] = $id;
         $page = $this->input->get('page', TRUE);
         $data['page'] = $page;
+        $data['filter_submission_date_from'] = $this->input->get('submission_date_from') ?: date('Y-m-01');
+        $data['filter_submission_date_to']   = $this->input->get('submission_date_to')   ?: date('Y-m-t');
+        $data['filter_status']               = $this->input->get('status')               ?: 'pending';
         $this->load->view('approvals/log', $data);
     }
 }
